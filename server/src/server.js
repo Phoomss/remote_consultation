@@ -1,12 +1,17 @@
 const express = require('express')
-require('dotenv').config({ path: '../.env' })
+const { PORT } = require('./../constants')
+const rootRouter = require('./routes')
+const { initializeAdminUser } = require('./controllers/authController')
+
+
 
 const app = express()
 
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
+app.use('/api', rootRouter)
 
-const PORT = process.env.PORT || 8081
+initializeAdminUser()
 
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`)
