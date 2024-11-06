@@ -1,8 +1,15 @@
 const { JWT_SECRET } = require("../../constants")
 const prisma = require("../config/db.config")
-const { InternalServer } = require("../exceptions/internal-server")
 const { hashPassword, comparePassword } = require("../helpers/hashPassword")
 const jwt = require('jsonwebtoken')
+
+const InternalServer = (res, error) => {
+    console.log('Error:', error);
+    return res.status(500).json({
+        message: "Internal Server Error",
+        error: error.message
+    });
+};
 
 exports.singup = async (req, res, next) => {
     const { title, full_name, phone, age, username, password } = req.body
@@ -47,7 +54,7 @@ exports.singup = async (req, res, next) => {
             data: newUser,
         });
     } catch (error) {
-        next(new InternalServer(res, error))
+        InternalServer(res, error)
     }
 }
 

@@ -5,7 +5,7 @@ export const styles = StyleSheet.create({
         flex: 1,
         // justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: '#69AFEF', 
+        backgroundColor: '#69AFEF',
     },
     profileCard: {
         flexDirection: 'row',
@@ -52,7 +52,7 @@ export const styles = StyleSheet.create({
     },
     serviceButton: {
         backgroundColor: 'rgba(40, 140, 232, 0.7)',
-        height:55,
+        height: 55,
         paddingVertical: 12,
         paddingHorizontal: 30,
         borderRadius: 75,
@@ -93,3 +93,57 @@ export const styles = StyleSheet.create({
     },
 
 })
+
+export const AuthStyle = StyleSheet.create({
+    container: {
+        flex: 1,
+        alignItems: 'center',
+        // justifyContent: 'center',
+        // backgroundColor: '#69AFEF', // Background color for the screen
+        padding: 20,
+    },
+    header: {
+        fontSize: 28,
+        fontWeight: '700',
+        // color: '#fff',
+        marginBottom: 40,
+    },
+    input: {
+        width: '100%',
+        height: 50,
+        backgroundColor: '#fff',
+        borderRadius: 75,
+        paddingHorizontal: 15,
+        marginBottom: 20,
+        fontSize: 16,
+        color: '#333',
+        elevation: 20,
+        shadowColor: '#007df0',
+    },
+    button: {
+        backgroundColor: '#40a8d4',
+        paddingVertical: 15,
+        borderRadius: 75,
+        width: '100%',
+        alignItems: 'center',
+        justifyContent: 'center',
+        marginTop: 20,
+    },
+    buttonText: {
+        fontSize: 18,
+        fontWeight: '600',
+        color: '#fff',
+    },
+    signUpText: {
+        fontSize: 14,
+        color: '#333',
+        marginTop:20
+    },
+    signUpLink: {
+        color: '#007bff',
+        fontWeight: 'bold',
+        textDecorationLine: 'underline',
+    },
+});
+
+
