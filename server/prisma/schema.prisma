@@ -11,6 +11,7 @@ enum Role {
   ADMIN
   USER
   OFFICER
+  PHYSICIAN
 }
 
 enum BookingType {
@@ -23,51 +24,57 @@ enum CaseStatus {
   notAccepting
 }
 
+model Content {
+  id           Int      @id @default(autoincrement())
+  content_name String
+  createdAt    DateTime @default(now())
+
+  Content_Detail Content_Detail[]
+
+  @@map("contents")
+}
+
+model Content_Detail {
+  id        Int      @id @default(autoincrement())
+  contentId Int
+  detail    String   @db.Text
+  createdAt DateTime @default(now())
+
+  content Content @relation(fields: [contentId], references: [id], onDelete: Cascade)
+
+  @@map("content_details")
+}
+
 model User {
   id        Int      @id @default(autoincrement())
-  title     String
+  title     String   @db.VarChar(10)
   full_name String
-  phone     String   @unique
   age       Int
-  username  String   @unique
+  phone     String   @unique @db.VarChar(10)
+  username  String   @unique @db.VarChar(100)
   password  String
-  role      Role     @default(USER)
+  role      Role
   createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
 
-  bookings        Booking[]
-  Case            Case[]
-  RiskHistoryInfo RiskHistoryInfo[]
+  Case_officer   Case[]     @relation("OfficerCases")
+  Case_physician Case[]     @relation("PhysicianCases")
+  Booking        Booking[]
+  Response       Response[]
 
   @@map("users")
 }
 
-model Physician {
-  id        Int       @id @default(autoincrement())
-  full_name String
-  phone     String
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
-  bookings  Booking[]
-
-  cases Case[]
-
-  @@map("physicians")
-}
-
 model Booking {
-  id          Int         @id @default(autoincrement())
-  userId      Int
-  physicianId Int
-  bookingType BookingType
-  appointment DateTime
-  createdAt   DateTime    @default(now())
-  updatedAt   DateTime    @updatedAt
-
-  user      User      @relation(fields: [userId], references: [id])
-  physician Physician @relation(fields: [physicianId], references: [id])
+  id             Int         @id @default(autoincrement())
+  userId         Int
+  booking_type   BookingType
+  booking_detail String      @db.Text
+  appointment    DateTime    @default(now())
+  createdAt      DateTime    @default(now())
 
   Case Case[]
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@map("bookings")
 }
@@ -75,32 +82,50 @@ model Booking {
 model Case {
   id          Int        @id @default(autoincrement())
   bookingId   Int
-  userId      Int
+  officerId   Int
   physicianId Int
-  status      CaseStatus
+  case_status CaseStatus
   createdAt   DateTime   @default(now())
 
-  user      User      @relation(fields: [userId], references: [id])
-  physician Physician @relation(fields: [physicianId], references: [id])
-  booking   Booking   @relation(fields: [bookingId], references: [id])
-
-  RiskHistory RiskHistory[]
+  booking   Booking @relation(fields: [bookingId], references: [id], onDelete: Cascade)
+  officer   User    @relation("OfficerCases", fields: [officerId], references: [id], onDelete: Cascade)
+  physician User    @relation("PhysicianCases", fields: [physicianId], references: [id], onDelete: Cascade)
 
   @@map("cases")
 }
 
-model RiskHistory {
-  id        Int      @id @default(autoincrement())
-  caseId    Int
-  createdAt DateTime @default(now())
+model Question {
+  id        Int        @id @default(autoincrement())
+  ques_name String     @unique
+  createdAt DateTime   @default(now())
+  Answer    Answer[]
+  Response  Response[]
 
-  case Case @relation(fields: [caseId], references: [id])
+  @@map("questions")
 }
 
-model RiskHistoryInfo {
-  id     Int     @id @default(autoincrement())
-  userId Int
-  othen  String?
+model Answer {
+  id         Int      @id @default(autoincrement())
+  questionId Int
+  anwer_text String   @db.Text
+  createdAt  DateTime @default(now())
 
-  user User @relation(fields: [userId], references: [id])
+  question Question   @relation(fields: [questionId], references: [id])
+  Response Response[]
+
+  @@map("answers")
+}
+
+model Response {
+  id         Int      @id @default(autoincrement())
+  userId     Int
+  questionId Int
+  answerId   Int
+  createdAt  DateTime @default(now())
+
+  user     User     @relation(fields: [userId], references: [id])
+  question Question @relation(fields: [questionId], references: [id])
+  answer   Answer   @relation(fields: [answerId], references: [id])
+
+  @@map("responses")
 }
