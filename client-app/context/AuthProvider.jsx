@@ -4,44 +4,42 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 // สร้าง Context
 const AuthContext = createContext();
 
+// ใช้ context ในคอมโพเนนต์ต่างๆ
+export const useAuth = () => useContext(AuthContext);
+
 // สร้าง provider component เพื่อแชร์ข้อมูลไปยังคอมโพเนนต์ต่างๆ
 export const AuthProvider = ({ children }) => {
-  const [isSignedIn, setIsSignedIn] = useState(false); // สถานะการล็อกอิน
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [userToken, setUserToken] = useState(null); // สถานะของ token
 
   useEffect(() => {
-    // เช็คสถานะการล็อกอินจาก AsyncStorage
-    const checkSignInStatus = async () => {
+    const checkToken = async () => {
       const token = await AsyncStorage.getItem('userToken');
       if (token) {
-        setIsSignedIn(true);
+        setIsAuthenticated(true);
         setUserToken(token);
       }
     };
-
-    checkSignInStatus();
+    checkToken();
   }, []);
 
-  // ฟังก์ชันสำหรับล็อกอิน
   const login = async (token) => {
-    await AsyncStorage.setItem('userToken', token);
+    setIsAuthenticated(true);
     setUserToken(token);
-    setIsSignedIn(true);
+    await AsyncStorage.setItem('userToken', token);
   };
 
-  // ฟังก์ชันสำหรับออกจากระบบ
   const logout = async () => {
-    await AsyncStorage.removeItem('userToken');
+    setIsAuthenticated(false);
     setUserToken(null);
-    setIsSignedIn(false);
+    await AsyncStorage.removeItem('userToken');
   };
 
   return (
-    <AuthContext.Provider value={{ isSignedIn, userToken, login, logout }}>
+    <AuthContext.Provider value={{ isAuthenticated, userToken, login, logout }}>
       {children}
     </AuthContext.Provider>
   );
 };
 
-// ใช้ context ในคอมโพเนนต์ต่างๆ
-export const useAuth = () => useContext(AuthContext);
+

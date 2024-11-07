@@ -80,7 +80,7 @@ export default function SignUpScreen({ navigation }) {
 
                 <Text style={AuthStyle.signUpText}>
                     มีบัญชีอยู่แล้ว?{' '}
-                    <Text style={AuthStyle.signUpLink} onPress={() => navigation.navigate('LoginScreen')}>
+                    <Text style={AuthStyle.signUpLink} onPress={() => navigation.navigate('Login')}>
                         เข้าสู่ระบบ
                     </Text>
                 </Text>

@@ -3,39 +3,25 @@ import React, { useState } from 'react';
 import { AuthStyle } from '../../constants/styles';
 import auth_back from '../../assets/auth_back.png';
 import authService from '../../services/AuthService';
-import AsyncStorage from '@react-native-async-storage/async-storage'; // Import AsyncStorage
-import { useNavigation } from '@react-navigation/native';
+import { useAuth } from '../../context/AuthProvider';
 
-export default function LoginScreen() {
-    // State to store the login data
+export default function LoginScreen({ navigation }) {
     const [LoginData, setLoginData] = useState({ username: "", password: "" });
+    const { login } = useAuth(); 
 
-    // Handle input changes
     const handleChange = (field, value) => {
         setLoginData({ ...LoginData, [field]: value });
     };
 
-    const navigation = useNavigation();
-
-    // Handle form submission
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-
+    const handleSubmit = async () => {
         try {
             const res = await authService.login(LoginData);
-            // After a successful login, store the token in AsyncStorage
-            if (res.status === 200) {
-                // Assuming the response contains a token
+            if (res.status === 200 && res.data?.data?.token) {
                 const token = res.data.data.token;
+                login(token);
                 console.log(token)
-                await AsyncStorage.setItem('userToken', token);  // Save token
-                await AsyncStorage.setItem('username', LoginData.username);  // Save username
-                
-                // Navigate to Home screen after login
-                navigation.navigate('Home');
-
+                console.log(res.data.data.username)
             } else {
-                // Handle errors if login fails
                 console.log('Login failed');
             }
         } catch (error) {

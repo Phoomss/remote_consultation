@@ -2,7 +2,7 @@ import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage'; 
 
 const defaultOptions = {
-    baseURL: "http://10.0.2.2:8080/", // Android emulator or use the IP address for a physical device
+    baseURL: "http://10.0.2.2:8080/", 
     headers: {
         "Content-Type": "application/json",
     },
