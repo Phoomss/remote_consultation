@@ -7,6 +7,13 @@ export const styles = StyleSheet.create({
         alignItems: 'center',
         backgroundColor: '#69AFEF',
     },
+    header: {
+        fontSize: 32,
+        fontWeight: '700',
+        color: '#ffff',
+        marginTop: 75,
+        marginBottom: 75
+    },
     profileCard: {
         flexDirection: 'row',
         alignItems: 'center',
@@ -30,7 +37,7 @@ export const styles = StyleSheet.create({
         marginRight: 10,
     },
     greetingText: {
-        fontSize: 16,
+        fontSize: 20,
         fontWeight: 'bold',
         color: '#333',
     },
@@ -91,6 +98,27 @@ export const styles = StyleSheet.create({
         fontSize: 18,
         fontWeight: '700',
     },
+    logout: {
+        backgroundColor: '#A09D9D',
+        height: 55,
+        paddingVertical: 12,
+        paddingHorizontal: 30,
+        borderRadius: 75,
+        marginVertical: 8,
+        width: '80%',
+        alignItems: 'center',
+        shadowColor: "#000",
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.2,
+        shadowRadius: 5,
+        elevation: 3,
+    },
+    logoutText: {
+        fontSize: 20,
+        color: "#ffff",
+        fontWeight: "600",
+        alignItems: 'center', 
+    }
 
 })
 
@@ -137,7 +165,7 @@ export const AuthStyle = StyleSheet.create({
     signUpText: {
         fontSize: 14,
         color: '#333',
-        marginTop:20
+        marginTop: 20
     },
     signUpLink: {
         color: '#007bff',
