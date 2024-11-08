@@ -27,23 +27,12 @@ enum CaseStatus {
 model Content {
   id           Int      @id @default(autoincrement())
   content_name String
-  createdAt    DateTime @default(now())
-
-  Content_Detail Content_Detail[]
+  content_detail    String   @db.Text
+  createdAt    DateTime @default(now()) @db.Timestamp()
 
   @@map("contents")
 }
 
-model Content_Detail {
-  id        Int      @id @default(autoincrement())
-  contentId Int
-  detail    String   @db.Text
-  createdAt DateTime @default(now())
-
-  content Content @relation(fields: [contentId], references: [id], onDelete: Cascade)
-
-  @@map("content_details")
-}
 
 model User {
   id        Int      @id @default(autoincrement())
@@ -54,7 +43,7 @@ model User {
   username  String   @unique @db.VarChar(100)
   password  String
   role      Role
-  createdAt DateTime @default(now())
+  createdAt DateTime @default(now()) @db.Timestamp()
 
   Case_officer   Case[]     @relation("OfficerCases")
   Case_physician Case[]     @relation("PhysicianCases")
@@ -69,8 +58,8 @@ model Booking {
   userId         Int
   booking_type   BookingType
   booking_detail String      @db.Text
-  appointment    DateTime    @default(now())
-  createdAt      DateTime    @default(now())
+  appointment    DateTime    @default(now()) @db.Timestamp()
+  createdAt      DateTime    @default(now()) @db.Timestamp()
 
   Case Case[]
 
@@ -85,7 +74,7 @@ model Case {
   officerId   Int
   physicianId Int
   case_status CaseStatus
-  createdAt   DateTime   @default(now())
+  createdAt   DateTime   @default(now()) @db.Timestamp()
 
   booking   Booking @relation(fields: [bookingId], references: [id], onDelete: Cascade)
   officer   User    @relation("OfficerCases", fields: [officerId], references: [id], onDelete: Cascade)
@@ -97,7 +86,7 @@ model Case {
 model Question {
   id        Int        @id @default(autoincrement())
   ques_name String     @unique
-  createdAt DateTime   @default(now())
+  createdAt DateTime   @default(now()) @db.Timestamp()
   Answer    Answer[]
   Response  Response[]
 
@@ -108,7 +97,7 @@ model Answer {
   id         Int      @id @default(autoincrement())
   questionId Int
   anwer_text String   @db.Text
-  createdAt  DateTime @default(now())
+  createdAt  DateTime @default(now()) @db.Timestamp()
 
   question Question   @relation(fields: [questionId], references: [id])
   Response Response[]
@@ -121,7 +110,7 @@ model Response {
   userId     Int
   questionId Int
   answerId   Int
-  createdAt  DateTime @default(now())
+  createdAt  DateTime @default(now()) @db.Timestamp()
 
   user     User     @relation(fields: [userId], references: [id])
   question Question @relation(fields: [questionId], references: [id])
