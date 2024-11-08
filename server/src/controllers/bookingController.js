@@ -1,41 +1,141 @@
+const prisma = require("../config/db.config")
 const InternalServer = require("../exceptions/internal-server")
 
-exports.createBooking = async(req,res)=>{
+exports.createBooking = async (req, res) => {
     try {
-        
+        const { userId, booking_type, booking_detail, appoinment } = req.body
+
+        const newBooking = await prisma.booking.create({
+            data: {
+                userId: userId,
+                booking_type: booking_type,
+                booking_detail: booking_detail,
+                appointment: appoinment
+            }
+        });
+
+        return res.status(201).json({
+            message: "Booking created successfully",
+            data: newBooking
+        });
     } catch (error) {
-        InternalServer(res,error)
+        InternalServer(res, error)
     }
 }
 
-exports.listBooking = async(req,res)=>{
+exports.listBooking = async (req, res) => {
     try {
-        
+        const query = await prisma.booking.findMany({
+            include: {
+                user: {
+                    select: {
+                        title: true,
+                        full_name: true,
+                        phone: true
+                    }
+                }
+            }
+        })
+
+        if (!query || query.length === 0) {
+            return res.status(404).json({ message: "No bookings found" });
+        }
+
+        return res.status(200).json({
+            message: "List of bookings retrieved successfully",
+            data: query
+        });
     } catch (error) {
-        InternalServer(res,error)
+        InternalServer(res, error)
     }
 }
 
-exports.bookingById = async(req,res)=>{
+exports.bookingById = async (req, res) => {
     try {
-        
+        const bookingId = parseInt(req.params.id)
+
+        const query = await prisma.booking.findMany({
+            where: {
+                id: bookingId
+            },
+            include: {
+                user: {
+                    select: {
+                        title: true,
+                        full_name: true,
+                        phone: true
+                    }
+                }
+            }
+        })
+
+        if (!query || query.length === 0) {
+            return res.status(404).json({ message: "No bookings found" });
+        }
+
+        return res.status(200).json({
+            message: "List of bookings retrieved successfully",
+            data: query
+        });
+
     } catch (error) {
-        InternalServer(res,error)
+        InternalServer(res, error)
     }
 }
 
-exports.bookingUpdate = async(req,res)=>{
+// ฟังก์ชันสำหรับการอัปเดตข้อมูลการจอง
+exports.bookingUpdate = async (req, res) => {
     try {
-        
-    } catch (error) {
-        InternalServer(res,error)
-    }
-}
+        const bookingId = parseInt(req.params.id);
+        const { booking_type, booking_detail, appointment } = req.body;
 
-exports.bookingDelete = async(req,res)=>{
-    try {
-        
+        // ตรวจสอบว่ามีข้อมูลที่ต้องการอัปเดตหรือไม่
+        if (!booking_type && !booking_detail && !appointment) {
+            return res.status(400).json({ message: "No update fields provided" });
+        }
+
+        // อัปเดตข้อมูลการจอง
+        const updatedBooking = await prisma.booking.update({
+            where: { id: bookingId },
+            data: {
+                booking_type: booking_type || undefined, // ถ้าไม่ส่งค่ามาก็ไม่อัปเดต
+                booking_detail: booking_detail || undefined,
+                appointment: appointment ? new Date(appointment) : undefined, // แปลงวันที่หากได้รับ
+            }
+        });
+
+        return res.status(200).json({
+            message: "Booking updated successfully",
+            data: updatedBooking
+        });
     } catch (error) {
-        InternalServer(res,error)
+        InternalServer(res, error)
     }
-}
+};
+
+// ฟังก์ชันสำหรับการลบข้อมูลการจอง
+exports.bookingDelete = async (req, res) => {
+    try {
+        const bookingId = parseInt(req.params.id);
+
+        // ตรวจสอบว่ามีการจองที่ต้องการลบหรือไม่
+        const bookingToDelete = await prisma.booking.findUnique({
+            where: { id: bookingId }
+        });
+
+        if (!bookingToDelete) {
+            return res.status(404).json({ message: "Booking not found" });
+        }
+
+        // ลบการจองจากฐานข้อมูล
+        await prisma.booking.delete({
+            where: { id: bookingId }
+        });
+
+        return res.status(200).json({
+            message: "Booking deleted successfully"
+        });
+    } catch (error) {
+        InternalServer(res, error)
+    }
+};
