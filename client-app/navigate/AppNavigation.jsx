@@ -9,12 +9,13 @@ import SettingScreen from '../screens/SettingScreen';
 import { useAuth } from '../context/AuthProvider';
 import AuthStackScreen from './AuthStackScreen';
 import SettingStackScreen from './SettingStackScreen';
+import KnowledgeStackScreen from './KnowledgeStackScreen';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 
 export default function AppNavigation() {
-  const { isAuthenticated } = useAuth(); 
+  const { isAuthenticated } = useAuth();
 
   return (
     <NavigationContainer>
@@ -48,8 +49,8 @@ export default function AppNavigation() {
           })}
         >
           <Tab.Screen name="Home" component={HomeStackScreen} options={{ headerShown: false }} />
-          <Tab.Screen name="สาระน่ารู้" component={KnowledgeScreen} />
-          <Tab.Screen name="Setting" component={SettingStackScreen} options={{headerShown:false}}/>
+          <Tab.Screen name="สาระน่ารู้" component={KnowledgeStackScreen} options={{ headerShown: false }} />
+          <Tab.Screen name="Setting" component={SettingStackScreen} options={{ headerShown: false }} />
         </Tab.Navigator>
       ) : (
         // Stack Navigator for unauthenticated users

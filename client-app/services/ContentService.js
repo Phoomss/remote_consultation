@@ -4,8 +4,8 @@ const contentList = async () => {
     return http.get('/api/content/')
 }
 
-const contentDetail = async (id) => {
-    return http.get(`/api/content/${id}`)
+const contentDetail = async (contentId) => {
+    return http.get(`/api/content/${contentId}`)
 }
 
 const contentService = {
