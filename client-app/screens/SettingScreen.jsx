@@ -1,4 +1,4 @@
-import { View, Text, Image, StyleSheet, Button, TouchableOpacity } from 'react-native'
+import { View, Text, TouchableOpacity } from 'react-native'
 import React from 'react';
 import { useAuth } from '../context/AuthProvider';
 import { styles } from '../constants/styles';

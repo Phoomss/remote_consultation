@@ -19,8 +19,8 @@ export default function LoginScreen({ navigation }) {
             if (res.status === 200 && res.data?.data?.token) {
                 const token = res.data.data.token;
                 login(token);
-                console.log(token)
-                console.log(res.data.data.username)
+                // console.log(token)
+                // console.log(res.data.data.username)
             } else {
                 console.log('Login failed');
             }
