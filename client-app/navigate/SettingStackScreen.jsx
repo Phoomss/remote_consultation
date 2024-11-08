@@ -20,11 +20,12 @@ export default function SettingStackScreen() {
             options={{
                 headerTitleAlign: 'center',
                 headerStyle: {
-                  backgroundColor: '#69AFEF', 
+                  backgroundColor: '#69AFEF', // Background color
+                  elevation: 0, // Removes shadow on Android
+                  shadowOpacity: 0, // Removes shadow on iOS
                 },
                 headerTintColor: '#fff', 
               }}
-              
              />
         </SettingStack.Navigator>
     )

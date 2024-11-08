@@ -117,7 +117,7 @@ export const styles = StyleSheet.create({
         fontSize: 20,
         color: "#ffff",
         fontWeight: "600",
-        alignItems: 'center', 
+        alignItems: 'center',
     }
 
 })
@@ -174,4 +174,26 @@ export const AuthStyle = StyleSheet.create({
     },
 });
 
+export const ProfileStyle = StyleSheet.create({
+    profileImage: {
+        height: 120,
+        width: 120,
 
+    },
+    btnEdit: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        marginTop: 15,
+        backgroundColor: '#007bff',
+        borderRadius: 8,
+        paddingHorizontal: 15,
+        paddingVertical: 10
+    },
+    input: {
+        borderWidth: 1,
+        borderColor: '#ccc',
+        padding: 10,
+        borderRadius: 8,
+        color: "black"
+    }
+})
