@@ -13,7 +13,6 @@ export default function ProfileScreen() {
       try {
         const res = await userService.userInfo();
         setUser(res.data.data);
-        console.log(res.data.data);
       } catch (error) {
         console.log('Error fetching user info:', error);
       }

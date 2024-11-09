@@ -130,6 +130,9 @@ export const AuthStyle = StyleSheet.create({
         // backgroundColor: '#69AFEF', // Background color for the screen
         padding: 20,
     },
+    // backgroundImage:{
+    //     height:240
+    // },
     header: {
         fontSize: 28,
         fontWeight: '700',

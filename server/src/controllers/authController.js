@@ -35,6 +35,14 @@ exports.singup = async (req, res, next) => {
             });
         }
 
+        const parsedAge = parseInt(age);
+
+        if (isNaN(parsedAge)) {
+            return res.status(400).json({
+                message: 'Invalid age value'
+            });
+        }
+
         const hashedPassword = await hashPassword(password)
 
         const newUser = await prisma.user.create({
@@ -42,7 +50,7 @@ exports.singup = async (req, res, next) => {
                 title,
                 full_name,
                 phone,
-                age,
+                age: parsedAge,
                 username,
                 password: hashedPassword,
                 role: "USER"

@@ -1,11 +1,12 @@
-import { View, Text, TextInput, TouchableOpacity, Image, ScrollView } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, Image, ScrollView, Alert } from 'react-native';
 import React, { useState } from 'react';
 import { Picker } from '@react-native-picker/picker'; // Import Picker
 import { AuthStyle } from '../../constants/styles';
 import auth_back from '../../assets/auth_back.png';
+import authService from '../../services/AuthService';
 
 export default function SignUpScreen({ navigation }) {
-    const [form, setForm] = useState({
+    const [signupData, setSignupData] = useState({
         title: '',  // Store selected title
         full_name: '',
         phone: '',
@@ -15,7 +16,33 @@ export default function SignUpScreen({ navigation }) {
     });
 
     const handleChange = (field, value) => {
-        setForm({ ...form, [field]: value });
+        setSignupData({ ...signupData, [field]: value });
+    };
+
+    const validateForm = () => {
+        const { title, full_name, phone, age, username, password } = signupData;
+        if (!title || !full_name || !phone || !age || !username || !password) {
+            Alert.alert('กรุณากรอกข้อมูลให้ครบถ้วน');
+            return false;
+        }
+        return true;
+    };
+
+    const handleSubmit = async () => {
+        if (!validateForm()) return; // Validate before submission
+
+        try {
+            await authService.signup(signupData);
+            Alert.alert('สำเร็จ', 'ลงทะเบียนสำเร็จแล้ว', [
+                {
+                    text: 'ตกลง',
+                    onPress: () => navigation.navigate('Login'),
+                },
+            ]);
+        } catch (error) {
+            console.error('Signup error: ', error);
+            Alert.alert('เกิดข้อผิดพลาด', 'ไม่สามารถลงทะเบียนได้');
+        }
     };
 
     return (
@@ -26,9 +53,10 @@ export default function SignUpScreen({ navigation }) {
 
                 {/* Title Picker */}
                 <Picker
-                    selectedValue={form.title}
+                    selectedValue={signupData.title}
                     onValueChange={(itemValue) => handleChange('title', itemValue)}
                     style={AuthStyle.input}
+                    placeholder="เลือกคำนำหน้า"
                 >
                     <Picker.Item label="นาย" value="นาย" />
                     <Picker.Item label="นาง" value="นาง" />
@@ -39,7 +67,7 @@ export default function SignUpScreen({ navigation }) {
                     style={AuthStyle.input}
                     placeholder="ชื่อ-นามสกุล (Full Name)"
                     placeholderTextColor="#aaa"
-                    value={form.full_name}
+                    value={signupData.full_name}
                     onChangeText={(value) => handleChange('full_name', value)}
                 />
                 <TextInput
@@ -47,7 +75,7 @@ export default function SignUpScreen({ navigation }) {
                     placeholder="หมายเลขโทรศัพท์ (Phone)"
                     placeholderTextColor="#aaa"
                     keyboardType="phone-pad"
-                    value={form.phone}
+                    value={signupData.phone}
                     onChangeText={(value) => handleChange('phone', value)}
                 />
                 <TextInput
@@ -55,14 +83,14 @@ export default function SignUpScreen({ navigation }) {
                     placeholder="อายุ (Age)"
                     placeholderTextColor="#aaa"
                     keyboardType="numeric"
-                    value={form.age}
+                    value={signupData.age}
                     onChangeText={(value) => handleChange('age', value)}
                 />
                 <TextInput
                     style={AuthStyle.input}
                     placeholder="ชื่อผู้ใช้งาน (Username)"
                     placeholderTextColor="#aaa"
-                    value={form.username}
+                    value={signupData.username}
                     onChangeText={(value) => handleChange('username', value)}
                 />
                 <TextInput
@@ -70,11 +98,12 @@ export default function SignUpScreen({ navigation }) {
                     placeholder="รหัสผ่าน (Password)"
                     placeholderTextColor="#aaa"
                     secureTextEntry
-                    value={form.password}
+                    value={signupData.password}
                     onChangeText={(value) => handleChange('password', value)}
                 />
 
-                <TouchableOpacity style={AuthStyle.button}>
+                {/* Submit Button */}
+                <TouchableOpacity style={AuthStyle.button} onPress={handleSubmit}>
                     <Text style={AuthStyle.buttonText}>ลงทะเบียน</Text>
                 </TouchableOpacity>
 
