@@ -3,14 +3,24 @@ const InternalServer = require("../exceptions/internal-server")
 
 exports.createBooking = async (req, res) => {
     try {
-        const { userId, booking_type, booking_detail, appoinment } = req.body
+        // Destructuring input from the request body
+        const { userId, booking_type, booking_detail, appointment } = req.body;
 
+        // Make sure appointment is a valid date
+        const parsedAppointment = new Date(appointment);
+
+        // Check if the appointment date is valid
+        if (isNaN(parsedAppointment)) {
+            return res.status(400).json({ message: "Invalid appointment date" });
+        }
+
+        // Create the new booking in the database using Prisma
         const newBooking = await prisma.booking.create({
             data: {
                 userId: userId,
                 booking_type: booking_type,
                 booking_detail: booking_detail,
-                appointment: appoinment
+                appointment: parsedAppointment // Using the parsed date
             }
         });
 
@@ -19,9 +29,11 @@ exports.createBooking = async (req, res) => {
             data: newBooking
         });
     } catch (error) {
-        InternalServer(res, error)
+        // Handling errors (e.g., database issues)
+        InternalServer(res, error);
     }
-}
+};
+
 
 exports.listBooking = async (req, res) => {
     try {

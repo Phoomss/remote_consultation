@@ -247,3 +247,58 @@ export const ContentStyle = StyleSheet.create({
         fontWeight: '600',
     },
 });
+
+export const Consult = StyleSheet.create({
+    container: {
+        flex: 1,
+        padding: 20,
+        backgroundColor: "#fff",
+        justifyContent: "flex-start",
+    },
+    title: {
+        fontSize: 18,
+        fontWeight: "bold",
+        marginBottom: 10,
+        color: "#333",
+    },
+    input: {
+        height: 50,
+        borderColor: "#ccc",
+        borderWidth: 1,
+        borderRadius: 8,
+        paddingHorizontal: 10,
+        marginBottom: 20,
+        backgroundColor: "#f9f9f9",
+        fontSize: 16,
+        color: "#333",
+    },
+    textarea: {
+        height: 150,
+        textAlignVertical: "top",
+    },
+    button: {
+        backgroundColor: "#2196F3",
+        paddingVertical: 12,
+        paddingHorizontal: 20,
+        borderRadius: 8,
+        marginBottom: 20,
+    },
+    buttonText: {
+        color: "#fff",
+        fontSize: 16,
+        textAlign: "center",
+    },
+    confirmButton: {
+        backgroundColor: "#2196F3",
+        paddingVertical: 12,
+        paddingHorizontal: 20,
+        borderRadius: 8,
+        alignItems: "center",
+        marginTop: 20,
+    },
+    confirmButtonText: {
+        color: "#fff",
+        fontSize: 16,
+        textAlign: "center",
+    },
+})
