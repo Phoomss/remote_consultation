@@ -2,7 +2,7 @@ const express = require('express');
 const contentRouter = express.Router();
 const contentController = require('../controllers/contentController');
 
-contentRouter.get('/', contentController.listContent);
+contentRouter.get('/create', contentController.listContent);
 contentRouter.get('/:id', contentController.contentById);
 
 contentRouter.post('/', contentController.createContent);

@@ -1,0 +1,18 @@
+{
+    "userId": 1,
+    "responses": [
+      {
+        "questionId": 1,
+        "answerId": 1
+      },
+      {
+        "questionId": 2,
+        "answerId": 3
+      },
+      {
+        "questionId": 3,
+        "answerId": 2
+      }
+    ]
+  }
+  

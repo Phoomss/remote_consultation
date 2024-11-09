@@ -2,7 +2,7 @@ const express = require('express');
 const bookingRouter = express.Router();  
 const bookingController = require('../controllers/bookingController');
 
-bookingRouter.get('/', bookingController.listBooking);
+bookingRouter.get('/create', bookingController.listBooking);
 bookingRouter.get('/:id', bookingController.bookingById);
 
 bookingRouter.post('/', bookingController.createBooking);
