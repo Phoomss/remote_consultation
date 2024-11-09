@@ -1,8 +1,7 @@
-import { View, Text, Image, StyleSheet, Button, TouchableOpacity } from 'react-native'
+import { View, Text, TouchableOpacity } from 'react-native'
 import React from 'react';
 import { useAuth } from '../context/AuthProvider';
 import { styles } from '../constants/styles';
-import ProfileCard from '../components/ProfileCard';
 
 export default function SettingScreen({ navigation }) {
   const { logout } = useAuth();
