@@ -62,13 +62,6 @@ export default function ConsultScreen() {
           <Text style={Consult.buttonText}>เลือกวัน และ เวลาที่่ต้องการจอง</Text>
         </TouchableOpacity>
 
-        <Text style={Consult.title}>รายละเอียด</Text>
-        <TextInput
-          style={[Consult.textarea, Consult.input]}
-          multiline
-        />
-
-
         {/* Display the selected date and time */}
         {selectedDate && (
           <TextInput
@@ -77,6 +70,12 @@ export default function ConsultScreen() {
             editable={false}
           />
         )}
+
+        <Text style={Consult.title}>รายละเอียด</Text>
+        <TextInput
+          style={[Consult.textarea, Consult.input]}
+          multiline
+        />
 
         <TouchableOpacity style={Consult.confirmButton}>
           <Text style={Consult.confirmButtonText}>ยืนยัน</Text>
