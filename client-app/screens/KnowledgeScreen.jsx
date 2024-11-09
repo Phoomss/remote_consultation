@@ -6,43 +6,66 @@ import Loading from '../components/Loading';
 import { useNavigation } from '@react-navigation/native';
 
 export default function KnowledgeScreen() {
-  const navigation = useNavigation()
+  const navigation = useNavigation();
   const [contentList, setContentList] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [isTimeout, setIsTimeout] = useState(false);
 
   useEffect(() => {
     const fetchContent = async () => {
       try {
         const res = await contentService.contentList();
         setContentList(res.data.data);
-        // console.log(res.data.data);
       } catch (error) {
         console.log('Error fetching content:', error);
+      } finally {
+        setIsLoading(false); 
       }
     };
+
     fetchContent();
-  }, []);
+
+    const timeout = setTimeout(() => {
+      if (isLoading) {
+        setIsTimeout(true); 
+      }
+    }, 5000);
+
+    return () => clearTimeout(timeout);
+  }, [isLoading]);
 
   return (
     <View style={styles.main}>
       <Text style={styles.header}>สาระน่ารู้</Text>
       <View style={styles.servicesContainer}>
-        {contentList ? (
+        {isTimeout ? (
+          <Text style={{ color: 'red' }}>ไม่พบข้อมูล เนื้อหายังไม่โหลด หรือไม่มีข้อมูล</Text>
+        ) : isLoading ? (
+          <Loading /> // Show Loading component if data is still being fetched
+        ) : contentList && contentList.length > 0 ? (
           contentList.map((item, index) => (
             <TouchableOpacity
               key={item.id}
               style={[
                 styles.serviceButton,
-                { backgroundColor: index % 2 === 0 ? '#69AFEF' : '#288CE866' }
+                { backgroundColor: index % 2 === 0 ? '#69AFEF' : '#288CE866' },
               ]}
               onPress={() => navigation.navigate('สาระน่ารู้', { contentId: item.id })}
             >
-              <Text style={[styles.buttonText,
-              { color: index % 2 === 0 ? '#ffff' : '#366189' }
-              ]}>{item.content_name || 'No content name available'}</Text>
+              <Text
+                style={[
+                  styles.buttonText,
+                  {
+                    color: index % 2 === 0 ? '#ffff' : '#366189',
+                  },
+                ]}
+              >
+                {item.content_name || 'No content name available'}
+              </Text>
             </TouchableOpacity>
           ))
         ) : (
-          <Loading />
+          <Text>ไม่พบข้อมูล</Text>
         )}
       </View>
     </View>
