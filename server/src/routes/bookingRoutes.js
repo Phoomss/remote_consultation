@@ -1,14 +1,16 @@
 const express = require('express');
 const bookingRouter = express.Router();  
 const bookingController = require('../controllers/bookingController');
+const authMiddleware = require('../middlewares/authMiddleware');
 
-bookingRouter.get('/', bookingController.listBooking);
-bookingRouter.get('/:id', bookingController.bookingById);
+bookingRouter.get('/', [authMiddleware], bookingController.listBooking);
+bookingRouter.get('/info', [authMiddleware], bookingController.bookingInfo);
+bookingRouter.get('/:id', [authMiddleware], bookingController.bookingById);
 
-bookingRouter.post('/create', bookingController.createBooking);
+bookingRouter.post('/create',[authMiddleware], bookingController.createBooking);
 
-bookingRouter.put('/:id', bookingController.bookingUpdate);
+bookingRouter.put('/:id', [authMiddleware], bookingController.bookingUpdate);
 
-bookingRouter.delete('/:id', bookingController.bookingDelete);
+bookingRouter.delete('/:id',[authMiddleware], bookingController.bookingDelete);
 
 module.exports = bookingRouter;

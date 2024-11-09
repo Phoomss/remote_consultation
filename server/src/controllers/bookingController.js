@@ -95,6 +95,40 @@ exports.bookingById = async (req, res) => {
     }
 }
 
+exports.bookingInfo = async (req, res) => {
+    try {
+        const userId = req.user.id
+
+        const query = await prisma.booking.findMany({
+            where: {
+                userId: userId
+            },
+            include: {
+                user: {
+                    select: {
+                        title: true,
+                        full_name: true,
+                        phone: true
+                    }
+                }
+            }
+        })
+
+        if (!query || query.length === 0) {
+            return res.status(404).json({ message: "No bookings found" });
+        }
+
+        return res.status(200).json({
+            message: "List of bookings retrieved successfully",
+            data: query
+        });
+
+    } catch (error) {
+        InternalServer(res, error)
+    }
+}
+
+
 // ฟังก์ชันสำหรับการอัปเดตข้อมูลการจอง
 exports.bookingUpdate = async (req, res) => {
     try {
