@@ -20,10 +20,11 @@ const Login = () => {
         try {
             const res = await authService.login(loginData);
             const userRole = res.data.data.role;
+            console.log(res.data.data)
             localStorage.setItem("token", res.data.data.token);
 
             switch (userRole) {
-                case "admin":
+                case "ADMIN":
                     Swal.fire({
                         icon: 'success',
                         title: 'เข้าสู่ระบบ',
@@ -34,7 +35,7 @@ const Login = () => {
                     })
                     navigate('/admin/dashboard');
                     break;
-                case 'officer':
+                case 'OFFICER':
                     Swal.fire({
                         icon: 'success',
                         title: 'เข้าสู่ระบบ',
@@ -45,7 +46,7 @@ const Login = () => {
                     })
                     navigate('/officer/dashboard');
                     break;
-                case 'physician':
+                case 'PHYSICIAN':
                     Swal.fire({
                         icon: 'success',
                         title: 'เข้าสู่ระบบ',

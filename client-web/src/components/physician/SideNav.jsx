@@ -1,10 +1,9 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import { NavLink, useNavigate } from 'react-router-dom'
 import Swal from 'sweetalert2'
-import userService from './../../service/userService';
+import UserInfo from '../common/UserInfo';
 
 const SideNav = () => {
-    const [userInfo, setUserInfo] = useState({})
     const navigate = useNavigate()
 
     const handleLogout = () => {
@@ -30,30 +29,11 @@ const SideNav = () => {
         })
     }
 
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const res = await userService.userInfo()
-                setUserInfo(res.data.data)
-            } catch (error) {
-                console.error("Error fetching user info:", error)
-            }
-        }
-        fetchData()
-    }, [])
-
     return (
         <div>
             <aside className="main-sidebar sidebar-dark-primary elevation-4">
                 <div className="sidebar">
-                    {userInfo && (
-                        <div className="user-panel mt-3 pb-3 mb-3 d-flex">
-                            <div className="info">
-                                <h5 className="d-block bg-dark">{userInfo.title}{userInfo.firstName} {userInfo.lastName}</h5>
-                                <p className="d-block text-center bg-dark">สถานะ: <span className='bg-success p-1'>{userInfo.role}</span></p>
-                            </div>
-                        </div>
-                    )}
+                    <UserInfo />
                     <nav className="mt-2">
                         <ul className="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                             <li className="nav-item">
@@ -64,7 +44,7 @@ const SideNav = () => {
                             </li>
                             <li className="nav-header">จัดการระบบ</li>
                             <li className="nav-item">
-                                <NavLink to='/admin/order/fail' className="nav-link">
+                                <NavLink to='/physician/consult' className="nav-link">
                                     <i className="nav-icon fa fa-search" />
                                     <p>จัดการเคสคนเข้าปรึกษา</p>
                                 </NavLink>

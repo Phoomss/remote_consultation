@@ -8,6 +8,8 @@ import PhysicianLayout from './layouts/PhysicianLayout'
 import AdminDashboardPage from './pages/admin/AdminDashboardPage';
 import OfficerDashboardPage from './pages/officer/OfficerDashboardPage';
 import PhysicianDashboardPage from './pages/physician/PhysicianDashboardPage';
+import AdminContentPage from './pages/admin/AdminContentPage';
+import OfficerContentPage from './pages/officer/OfficerContentPage';
 
 function App() {
 
@@ -18,14 +20,16 @@ function App() {
         <Route path='/' element={<Login />} />
         <Route path='/register' element={<Register />} />
 
-        <Route element={<AdminLayout/>}>
-        <Route path='/admin/dashboard' element={<AdminDashboardPage />} />
+        <Route element={<AdminLayout />}>
+          <Route path='/admin/dashboard' element={<AdminDashboardPage />} />
+          <Route path='/admin/content' element={<AdminContentPage />} />
         </Route>
-        <Route element={<OfficerLayout/>}>
-        <Route path='/officer/dashboard' element={<OfficerDashboardPage />} />
+        <Route element={<OfficerLayout />}>
+          <Route path='/officer/dashboard' element={<OfficerDashboardPage />} />
+          <Route path='/officer/content' element={<OfficerContentPage />} />
         </Route>
-        <Route element={<PhysicianLayout/>}>
-        <Route path='/physician/dashboard' element={<PhysicianDashboardPage />} />
+        <Route element={<PhysicianLayout />}>
+          <Route path='/physician/dashboard' element={<PhysicianDashboardPage />} />
         </Route>
       </Routes>
     </BrowserRouter>

@@ -103,6 +103,7 @@ exports.login = async (req, res) => {
             data: {
                 full_name: userWithIdentifier.full_name,
                 username: userWithIdentifier.username,
+                role:userWithIdentifier.role,
                 token: jwtToken
             }
         })
