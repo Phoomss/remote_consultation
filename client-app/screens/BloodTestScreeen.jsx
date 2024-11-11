@@ -1,17 +1,48 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, TextInput, TouchableOpacity } from "react-native";
+import { View, Text, TextInput, TouchableOpacity, Alert } from "react-native";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { Consult } from './../constants/styles';
 import userService from "../services/UserService";
+import bookingService from './../services/BookingService';
+import { useNavigation } from '@react-navigation/native';
 
 export default function BloodTestScreen() {
+  const navigation = useNavigation();
   const [user, setUser] = useState(null);
+  const [bookingData, setBookingData] = useState({
+    userId: '',
+    appointment: '',
+    booking_type: "bloodTest"
+  });
+
+  const handleChange = (field, value) => {
+    setBookingData({ ...bookingData, [field]: value });
+  };
+
+  const handleSubmit = async () => {
+    try {
+      await bookingService.createBooking(bookingData);
+      Alert.alert('สำเร็จ', 'ลงทะเบียนสำเร็จแล้ว', [
+        {
+          text: 'ตกลง',
+          onPress: () => navigation.goBack,
+        },
+      ]);
+    } catch (error) {
+      console.error('booking error: ', error);
+      Alert.alert('เกิดข้อผิดพลาด', 'ไม่สามารถจองคิวได้');
+    }
+  };
 
   useEffect(() => {
     const fetchUserInfo = async () => {
       try {
         const res = await userService.userInfo();
         setUser(res.data.data);
+        setBookingData((prev) => ({
+          ...prev,
+          userId: res.data.data.id, // Assuming `id` is the user ID
+        }));
       } catch (error) {
         console.log('Error fetching user info:', error);
       }
@@ -20,7 +51,7 @@ export default function BloodTestScreen() {
   }, []);
 
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
-  const [selectedDate, setSelectedDate] = useState(null); // Store selected date and time
+  const [selectedDate, setSelectedDate] = useState(null);
 
   const showDatePicker = () => {
     setDatePickerVisibility(true);
@@ -31,8 +62,8 @@ export default function BloodTestScreen() {
   };
 
   const handleConfirm = (date) => {
-    console.warn("A date has been picked: ", date);
-    setSelectedDate(date); // Save the selected date and time
+    setSelectedDate(date);
+    handleChange('appointment', date.toISOString()); // Format date for bookingData
     hideDatePicker();
   };
 
@@ -41,10 +72,21 @@ export default function BloodTestScreen() {
       {user ? (
         <View>
           <Text style={Consult.title}>ชื่อ-นามสกุล</Text>
-          <TextInput style={Consult.input} placeholder="กรุณากรอกชื่อ-นามสกุล" value={`${user.title}.${user.full_name}`} />
+          <TextInput
+            style={Consult.input}
+            placeholder="กรุณากรอกชื่อ-นามสกุล"
+            value={`${user.title}.${user.full_name}`}
+            editable={false}
+          />
 
           <Text style={Consult.title}>เบอร์โทรศัพท์</Text>
-          <TextInput style={Consult.input} placeholder="กรุณากรอกเบอร์โทรศัพท์" keyboardType="phone-pad" value={user.phone} />
+          <TextInput
+            style={Consult.input}
+            placeholder="กรุณากรอกเบอร์โทรศัพท์"
+            keyboardType="phone-pad"
+            value={user.phone}
+            editable={false}
+          />
         </View>
       ) : (
         <View>
@@ -61,7 +103,6 @@ export default function BloodTestScreen() {
         <Text style={Consult.buttonText}>เลือกวัน และ เวลาที่่ต้องการจอง</Text>
       </TouchableOpacity>
 
-      {/* Display the selected date and time */}
       {selectedDate && (
         <TextInput
           value={selectedDate.toLocaleString()}
@@ -70,14 +111,13 @@ export default function BloodTestScreen() {
         />
       )}
 
-      <TouchableOpacity style={Consult.confirmButton}>
+      <TouchableOpacity style={Consult.confirmButton} onPress={handleSubmit}>
         <Text style={Consult.confirmButtonText}>ยืนยัน</Text>
       </TouchableOpacity>
 
-      {/* DateTimePickerModal for date and time */}
       <DateTimePickerModal
         isVisible={isDatePickerVisible}
-        mode="datetime" // Use 'datetime' for selecting both date and time
+        mode="datetime"
         onConfirm={handleConfirm}
         onCancel={hideDatePicker}
       />
