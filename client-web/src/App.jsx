@@ -1,34 +1,34 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { BrowserRouter, Route, Routes } from 'react-router-dom'
+import Loading from './components/Loading'
+import Login from './pages/auth/Login'
+import Register from './pages/auth/Register';
+import AdminLayout from './layouts/AdminLayout'
+import OfficerLayout from './layouts/OfficerLayout'
+import PhysicianLayout from './layouts/PhysicianLayout'
+import AdminDashboardPage from './pages/admin/AdminDashboardPage';
+import OfficerDashboardPage from './pages/officer/OfficerDashboardPage';
+import PhysicianDashboardPage from './pages/physician/PhysicianDashboardPage';
 
 function App() {
-  const [count, setCount] = useState(0)
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+    <BrowserRouter>
+      <Routes>
+        <Route path='/loading' element={<Loading />} />
+        <Route path='/' element={<Login />} />
+        <Route path='/register' element={<Register />} />
+
+        <Route element={<AdminLayout/>}>
+        <Route path='/admin/dashboard' element={<AdminDashboardPage />} />
+        </Route>
+        <Route element={<OfficerLayout/>}>
+        <Route path='/officer/dashboard' element={<OfficerDashboardPage />} />
+        </Route>
+        <Route element={<PhysicianLayout/>}>
+        <Route path='/physician/dashboard' element={<PhysicianDashboardPage />} />
+        </Route>
+      </Routes>
+    </BrowserRouter>
   )
 }
 
