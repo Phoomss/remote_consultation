@@ -301,4 +301,25 @@ export const Consult = StyleSheet.create({
         fontSize: 16,
         textAlign: "center",
     },
+
+    card: {
+        backgroundColor: '#f9f9f9',
+        borderRadius: 8,
+        padding: 16,
+        marginBottom: 10,
+        shadowColor: '#000',
+        shadowOpacity: 0.1,
+        shadowOffset: { width: 0, height: 2 },
+        shadowRadius: 4,
+        width: 296,
+        borderColor: '#69AFEF',
+        borderWidth: 1, 
+      },
+      header: {
+        fontSize: 24,
+        fontWeight: 'bold',
+        marginBottom: 12,
+        marginTop: 12,
+        color: '#333',
+      },
 })

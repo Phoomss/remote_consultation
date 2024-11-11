@@ -16,9 +16,14 @@ const createBooking = async (bookingData) => {
     return http.post('/api/booking/create', bookingData)
 }
 
+const deleteBooking = async(bookingId)=>{
+    return http.delete(`/api/booking/${bookingId}`)
+}
+
 const bookingService = {
     bookingInfo,
-    createBooking
+    createBooking,
+    deleteBooking
 }
 
 export default bookingService

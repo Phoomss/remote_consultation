@@ -4,6 +4,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import BloodTestScreeen from '../screens/BloodTestScreeen'
 import ConsultScreen from '../screens/ConsultScreen'
 import AssessmentScreen from '../screens/AssessmentScreen'
+import ListBookingScreen from '../screens/ListBookingScreen'
 
 export default function HomeStackScreen() {
     const HomeStack = createNativeStackNavigator()
@@ -24,6 +25,11 @@ export default function HomeStackScreen() {
                 name="จองคิวเข้าปรึกษา" 
                 component={ConsultScreen} 
                 options={{ headerTitleAlign: 'center'}} 
+            />
+              <HomeStack.Screen 
+                name="สรุปรายการนัดหมาย" 
+                component={ListBookingScreen} 
+                options={{ headerShown:false}} 
             />
              <HomeStack.Screen 
                 name="แบบประเมินความเสี่ยง" 

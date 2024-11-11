@@ -25,7 +25,7 @@ export default function BloodTestScreen() {
       Alert.alert('สำเร็จ', 'ลงทะเบียนสำเร็จแล้ว', [
         {
           text: 'ตกลง',
-          onPress: () => navigation.goBack,
+          onPress: () => navigation.goBack()
         },
       ]);
     } catch (error) {

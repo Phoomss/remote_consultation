@@ -17,7 +17,7 @@ export default function HomeScreen({ navigation }) {
                 <TouchableOpacity style={styles.serviceButtonTwo} onPress={() => navigation.navigate('จองคิวเข้าปรึกษา')}>
                     <Text style={styles.buttonTextTwo}>จองคิวเข้าปรึกษา</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.serviceButton}>
+                <TouchableOpacity style={styles.serviceButton} onPress={() => navigation.navigate('สรุปรายการนัดหมาย')}>
                     <Text style={styles.buttonText}>สรุปรายการนัดหมาย</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.serviceButtonTwo} onPress={() => navigation.navigate('แบบประเมินความเสี่ยง')}>
