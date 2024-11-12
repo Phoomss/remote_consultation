@@ -96,7 +96,7 @@ model Question {
 model Answer {
   id         Int      @id @default(autoincrement())
   questionId Int
-  anwer_text String   @db.Text
+  answer_text String   
   createdAt  DateTime @default(now()) @db.Timestamp()
 
   question Question   @relation(fields: [questionId], references: [id])
