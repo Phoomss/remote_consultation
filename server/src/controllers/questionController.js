@@ -22,15 +22,22 @@ exports.createQuestion = async (req, res) => {
 
 exports.listQuestion = async (req, res) => {
     try {
-        const query = await prisma.question.findMany()
+        // Fetch the list of questions
+        const query = await prisma.question.findMany();
 
+        // Get the count of questions
+        const count = await prisma.question.count();
+
+        // Return both the data and the count
         return res.status(200).json({
-            data: query
-        })
+            data: query,
+            count: count
+        });
     } catch (error) {
-        InternalServer(res, error)
+        InternalServer(res, error);
     }
-}
+};
+
 
 exports.questionById = async (req, res) => {
     try {
