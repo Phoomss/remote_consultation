@@ -62,6 +62,34 @@ exports.listBooking = async (req, res) => {
     }
 }
 
+exports.countBookingType = async (req, res) => {
+    try {
+        const query = await prisma.booking.groupBy({
+            by: ['booking_type'],
+            _count: {
+                booking_type: true
+            },
+            where: {
+                booking_type: {
+                    in: ['bloodTest', 'consult']
+                }
+            }
+        });
+
+        if (!query || query.length === 0) {
+            return res.status(404).json({ message: "No bookings found" });
+        }
+
+        return res.status(200).json({
+            message: "List of bookings retrieved successfully",
+            data: query
+        });
+    } catch (error) {
+        InternalServer(res, error)
+    }
+};
+
+
 exports.bookingById = async (req, res) => {
     try {
         const bookingId = parseInt(req.params.id)

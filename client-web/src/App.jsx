@@ -10,6 +10,8 @@ import OfficerDashboardPage from './pages/officer/OfficerDashboardPage';
 import PhysicianDashboardPage from './pages/physician/PhysicianDashboardPage';
 import AdminContentPage from './pages/admin/AdminContentPage';
 import OfficerContentPage from './pages/officer/OfficerContentPage';
+import AdminBookingPage from './pages/admin/AdminBookingPage';
+import OfficerBooking from './pages/officer/OfficerBooking';
 
 function App() {
 
@@ -23,10 +25,12 @@ function App() {
         <Route element={<AdminLayout />}>
           <Route path='/admin/dashboard' element={<AdminDashboardPage />} />
           <Route path='/admin/content' element={<AdminContentPage />} />
+          <Route path='/admin/reservation' element={<AdminBookingPage />} />
         </Route>
         <Route element={<OfficerLayout />}>
           <Route path='/officer/dashboard' element={<OfficerDashboardPage />} />
           <Route path='/officer/content' element={<OfficerContentPage />} />
+          <Route path='/officer/reservation' element={<OfficerBooking />} />
         </Route>
         <Route element={<PhysicianLayout />}>
           <Route path='/physician/dashboard' element={<PhysicianDashboardPage />} />

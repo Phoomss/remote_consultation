@@ -4,6 +4,7 @@ const bookingController = require('../controllers/bookingController');
 const authMiddleware = require('../middlewares/authMiddleware');
 
 bookingRouter.get('/', [authMiddleware], bookingController.listBooking);
+bookingRouter.get('/count', [authMiddleware], bookingController.countBookingType);
 bookingRouter.get('/info', [authMiddleware], bookingController.bookingInfo);
 bookingRouter.get('/:id', [authMiddleware], bookingController.bookingById);
 
