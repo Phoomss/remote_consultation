@@ -12,10 +12,21 @@ const deteleContent = async (contentId) => {
     return http.delete(`/api/content/${contentId}`)
 }
 
+const createContent = async (contentData) => {
+    return http.post('/api/content/create', contentData)
+}
+
+const updateContent = async (contentId, contentData) => {
+    // Send content data in the body of the PUT request
+    return http.put(`/api/content/${contentId}`, contentData)
+}
+
 const contentService = {
     contentList,
     contentDetail,
-    deteleContent
+    deteleContent,
+    createContent,
+    updateContent
 }
 
 export default contentService

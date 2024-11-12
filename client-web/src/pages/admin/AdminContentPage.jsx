@@ -1,5 +1,6 @@
 import React from 'react'
-import Content from '../../components/admin/Content'
+import Content from '../../components/common/Content'
+import CreateContent from '../../components/common/form/CreateContent'
 
 const AdminContentPage = () => {
   return (
@@ -19,7 +20,8 @@ const AdminContentPage = () => {
           </div>{/* /.row */}
         </div>{/* /.container-fluid */}
       </div>
-      <Content />
+      <CreateContent/>
+      <Content/>
     </div>
   )
 }

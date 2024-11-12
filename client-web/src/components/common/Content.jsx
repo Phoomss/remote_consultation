@@ -9,6 +9,9 @@ const Content = () => {
   const [error, setError] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage] = useState(10);
+  const [currentContentId, setCurrentContentId] = useState(null);
+  const [currentContentName, setCurrentContentName] = useState('');
+  const [currentContentDetail, setCurrentContentDetail] = useState('');
 
   const navigate = useNavigate();
 
@@ -43,9 +46,77 @@ const Content = () => {
 
   const totalPages = Math.ceil(filteredContent.length / itemsPerPage);
 
-  const handleEdit = (contentId) => {
-    navigate(`/edit/${contentId}`);
-  };
+  const handleEdit = async (contentId) => {
+    // Fetch the content details for editing
+    try {
+      const res = await contentService.contentDetail(contentId);
+      const contentDetail = res.data.data;
+      setCurrentContentId(contentId);
+      setCurrentContentName(contentDetail.content_name);
+      setCurrentContentDetail(contentDetail.content_detail);
+  
+      // Show the edit modal with pre-filled content
+      const { value: formValues } = await Swal.fire({
+        title: 'แก้ไขคอนเทนท์',
+        html: `
+          <div class="swal2-input-container">
+            <input 
+              id="swal-input-name" 
+              class="swal2-input" 
+              value="${contentDetail.content_name}" 
+              placeholder="ชื่อคอนเทนท์" 
+              style="width: 70%; padding: 12px; font-size: 16px; margin-bottom: 15px; border-radius: 5px; border: 1px solid #ddd; box-sizing: border-box;"/>
+            <textarea 
+              id="swal-input-detail" 
+              class="swal2-textarea" 
+              placeholder="รายละเอียดคอนเทนท์" 
+              style="width: 70%; padding: 12px; font-size: 16px; margin-bottom: 15px; border-radius: 5px; border: 1px solid #ddd; box-sizing: border-box;">
+              ${contentDetail.content_detail}
+            </textarea>
+          </div>
+        `,
+        showCancelButton: true,
+        confirmButtonText: 'บันทึกการแก้ไข',
+        cancelButtonText: 'ยกเลิก',
+        focusConfirm: false,
+        customClass: {
+          popup: 'swal2-popup-edit', // Custom class for the popup
+          confirmButton: 'swal2-confirm-btn',
+          cancelButton: 'swal2-cancel-btn',
+        },
+        preConfirm: () => {
+          const contentName = document.getElementById('swal-input-name').value;
+          const contentDetail = document.getElementById('swal-input-detail').value;
+          return { contentName, contentDetail };
+        }
+      });
+  
+      if (formValues) {
+        const { contentName, contentDetail } = formValues;
+        if (contentName && contentDetail) {
+          try {
+            // Send the updated content to the backend
+            await contentService.updateContent(contentId, { content_name: contentName, content_detail: contentDetail });
+  
+            // Update the UI with the new data
+            const updatedContents = contents.map(content =>
+              content.id === contentId ? { ...content, content_name: contentName, content_detail: contentDetail } : content
+            );
+            setContents(updatedContents);
+            setFilteredContent(updatedContents);
+  
+            Swal.fire('สำเร็จ!', 'คอนเทนท์ของคุณได้รับการอัปเดตแล้ว', 'success');
+          } catch (error) {
+            Swal.fire('เกิดข้อผิดพลาด!', 'ไม่สามารถอัปเดตคอนเทนท์ได้', 'error');
+          }
+        } else {
+          Swal.fire('ข้อผิดพลาด!', 'กรุณากรอกข้อมูลให้ครบถ้วน', 'error');
+        }
+      }
+    } catch (error) {
+      Swal.fire('เกิดข้อผิดพลาด!', 'ไม่สามารถดึงข้อมูลคอนเทนท์มาแก้ไขได้', 'error');
+    }
+  };  
 
   const handleDelete = async (contentId) => {
     const confirm = await Swal.fire({
@@ -91,7 +162,7 @@ const Content = () => {
   };
 
   return (
-    <div className='tb-content'>
+    <div className='tb-content mt-3 '>
       {error && <div className="alert alert-danger">{error}</div>}
       <div className="table-responsive">
         <table className="table table-bordered table-gray table-striped text-center">
