@@ -16,8 +16,8 @@ const createAnswer = async (answerData) => {
     return http.post('/api/answer/create', answerData)
 }
 
-const updateAnswer = async (answerData, answerId) => {
-    return http.put(`/api/answer/${answerId}`, answerData)
+const updateAnswer = async (answerId, answerData) => {
+    return http.put(`/api/answer/${answerId}`, answerData);
 }
 
 const deleteAnswer = async (answerId) => {

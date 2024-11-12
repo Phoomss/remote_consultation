@@ -136,26 +136,30 @@ exports.searchAnswer = async (req, res) => {
 
 exports.updateAnswer = async (req, res) => {
     try {
-        const answerId = parseInt(req.params.id)
-        const { answer_text } = req.body
+        const answerId = parseInt(req.params.id);
+        const { answer_text } = req.body;
 
         if (!answerId) {
-            return res.status(404).json({ message: "Answer not found" })
+            return res.status(404).json({ message: "Answer not found" });
         }
 
         const updatedAnswer = await prisma.answer.update({
             where: { id: answerId },
-            data: { answer_text }
-        })
+            data: {
+                answer_text: answer_text
+            }
+        });
 
+        console.log(updatedAnswer);
         return res.status(200).json({
             message: "Answer updated successfully",
             data: updatedAnswer
-        })
+        });
     } catch (error) {
-        InternalServer(res, error)
+        InternalServer(res, error);
     }
-}
+};
+
 
 exports.deleteAnswer = async (req, res) => {
     try {
