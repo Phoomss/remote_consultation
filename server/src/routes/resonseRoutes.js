@@ -6,7 +6,7 @@ responseRouter.post('/create', responseController.createRespone)
 
 responseRouter.get('/', responseController.listResponse)
 
-responseRouter.get('/:id', responseController.responseById)
+responseRouter.get('/:id/user/:id', responseController.responseByUserId)
 
 responseRouter.put('/:id', responseController.updateResponse)
 

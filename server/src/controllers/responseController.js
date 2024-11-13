@@ -30,6 +30,7 @@ exports.listResponse = async (req, res) => {
             include: {
                 user: {
                     select: {
+                        id: true,
                         title: true,
                         full_name: true,
                         age: true,
@@ -38,29 +39,59 @@ exports.listResponse = async (req, res) => {
                 },
                 question: true,
                 answer: true
+            },
+            orderBy: {
+                id: 'desc'  // Sorting by id in descending order
             }
         })
 
+        // Group responses by user ID
+        const groupedResponses = responses.reduce((acc, response) => {
+            const userId = response.user.id;
+            if (!acc[userId]) {
+                acc[userId] = {
+                    user: response.user,
+                    responses: []
+                };
+            }
+            acc[userId].responses.push({
+                question: response.question,
+                answer: response.answer
+            });
+            return acc;
+        }, {});
+
+        // Convert the object to an array
+        const responseArray = Object.values(groupedResponses);
+
         return res.status(200).json({
-            message: "List of responses",
-            data: responses
-        })
+            message: "List of responses grouped by user",
+            data: responseArray
+        });
     } catch (error) {
-        InternalServer(res, error)
+        InternalServer(res, error);
     }
-}
+};
 
-exports.responseById = async (req, res) => {
+
+exports.responseByUserId = async (req, res) => {
     try {
-        const responseId = parseInt(req.params.id)
+        const userId = parseInt(req.params.id, 10); // Ensure the base is 10 for the parseInt
 
-        const response = await prisma.response.findUnique({
+        // Validate the userId to make sure it's a valid number
+        if (isNaN(userId)) {
+            return res.status(400).json({ message: "Invalid user ID" });
+        }
+
+        // Fetch all responses by the user ID
+        const responses = await prisma.response.findMany({
             where: {
-                id: responseId
+                userId: userId // Filter responses by userId
             },
             include: {
                 user: {
                     select: {
+                        id: true,
                         title: true,
                         full_name: true,
                         age: true,
@@ -70,20 +101,24 @@ exports.responseById = async (req, res) => {
                 question: true,
                 answer: true
             }
-        })
+        });
 
-        if (!response) {
-            return res.status(404).json({ message: "Response not found" })
+        // If no responses found for the user, return a 404 error
+        if (responses.length === 0) {
+            return res.status(404).json({
+                message: "No responses found for this user"
+            });
         }
 
         return res.status(200).json({
-            message: "Response details",
-            data: response
-        })
+            message: "List of responses for the user",
+            data: responses // Return all responses for the given user
+        });
     } catch (error) {
-        InternalServer(res, error)
+        // Ensure you have an InternalServer method that handles the error
+        InternalServer(res, error);
     }
-}
+};
 
 exports.updateResponse = async (req, res) => {
     try {
