@@ -11,17 +11,17 @@ const InternalServer = (res, error) => {
     });
 };
 
-exports.singup = async (req, res, next) => {
-    const { title, full_name, phone, age, username, password } = req.body
+exports.signup = async (req, res, next) => {
+    const { title, full_name, phone, age, username, password, role } = req.body;
 
     try {
         const existingUsername = await prisma.user.findFirst({
             where: { username }
-        })
+        });
 
         const existingPhone = await prisma.user.findFirst({
             where: { phone }
-        })
+        });
 
         if (existingUsername) {
             return res.status(409).json({
@@ -36,14 +36,17 @@ exports.singup = async (req, res, next) => {
         }
 
         const parsedAge = parseInt(age);
-
         if (isNaN(parsedAge)) {
             return res.status(400).json({
                 message: 'Invalid age value'
             });
         }
 
-        const hashedPassword = await hashPassword(password)
+        // Allow only specific roles
+        const allowedRoles = ["USER", "OFFICER","PHYSICIAN"];
+        const assignedRole = allowedRoles.includes(role) ? role : "USER";
+
+        const hashedPassword = await hashPassword(password);
 
         const newUser = await prisma.user.create({
             data: {
@@ -53,18 +56,20 @@ exports.singup = async (req, res, next) => {
                 age: parsedAge,
                 username,
                 password: hashedPassword,
-                role: "USER"
+                role: assignedRole
             }
-        })
+        });
 
+        console.log(newUser);
         res.status(201).json({
             message: "User registered successfully!",
             data: newUser,
         });
     } catch (error) {
-        InternalServer(res, error)
+        InternalServer(res, error);
     }
-}
+};
+
 
 exports.login = async (req, res) => {
     const { username, password } = req.body
@@ -97,7 +102,7 @@ exports.login = async (req, res) => {
         },
             JWT_SECRET
         )
-
+        
         res.status(200).json({
             message: "Login success",
             data: {

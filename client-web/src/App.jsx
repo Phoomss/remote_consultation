@@ -16,6 +16,9 @@ import AdminQuestionPage from './pages/admin/AdminQuestionPage';
 import OfficerQuestion from './pages/officer/OfficerQuestion';
 import AdminAnswerPage from './pages/admin/AdminAnswerPage';
 import OfficerAnswerPage from './pages/officer/OfficerAnswerPage';
+import AdminProfilePage from './pages/admin/AdminProfilePage';
+import OfficerProfilePage from './pages/officer/OfficerProfilePage';
+import PhysicianProfilePage from './pages/physician/PhysicianProfilePage';
 
 function App() {
 
@@ -32,6 +35,7 @@ function App() {
           <Route path='/admin/reservation' element={<AdminBookingPage />} />
           <Route path='/admin/assessment/question' element={<AdminQuestionPage />} />
           <Route path='/admin/assessment/answer' element={<AdminAnswerPage />} />
+          <Route path='/admin/profile' element={<AdminProfilePage />} />
         </Route>
         <Route element={<OfficerLayout />}>
           <Route path='/officer/dashboard' element={<OfficerDashboardPage />} />
@@ -39,9 +43,11 @@ function App() {
           <Route path='/officer/reservation' element={<OfficerBooking />} />
           <Route path='/officer/assessment/question' element={<OfficerQuestion />} />
           <Route path='/officer/assessment/answer' element={<OfficerAnswerPage />} />
+          <Route path='/officer/profile' element={<OfficerProfilePage />} />
         </Route>
         <Route element={<PhysicianLayout />}>
           <Route path='/physician/dashboard' element={<PhysicianDashboardPage />} />
+          <Route path='/physician/profile' element={<PhysicianProfilePage />} />
         </Route>
       </Routes>
     </BrowserRouter>

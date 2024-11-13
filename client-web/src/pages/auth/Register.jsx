@@ -1,24 +1,25 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import authService from '../../service/authService'; // Adjust the path as needed
+import authService from '../../service/authService'; // ปรับเส้นทางตามที่จำเป็น
 import Swal from 'sweetalert2';
 
 const Register = () => {
     const [signupData, setSignupData] = useState({
-        title: '',  // Store selected title
+        title: '',  // เก็บคำนำหน้า
         full_name: '',
         phone: '',
         age: '',
         username: '',
         password: '',
         confirmPassword: "",
+        role: ""
     });
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
 
     const handleChange = (e) => {
         const { name, value } = e.target;
-        setSignupData({ ...signupData, [name]: value }); // Use signupData, not registerData
+        setSignupData({ ...signupData, [name]: value }); // ใช้ signupData แทน registerData
     };
 
     const handleSubmit = async (e) => {
@@ -39,7 +40,7 @@ const Register = () => {
         }
 
         try {
-            await authService.signup(signupData); // Assuming authService has a register method
+            await authService.signup(signupData); // สมมติว่า authService มีเมธอด register
             Swal.fire({
                 position: "center",
                 icon: "success",
@@ -65,52 +66,61 @@ const Register = () => {
     return (
         <div className='hold-transition register-page'>
             <div className="register-box">
-                <div className="register-logo">
-                    <b>ระบบ</b>ให้คำปรึกษาทางไกลสำหรับผู้รับบริการคลินิกเทคนิคการแพทย์ฟ้าสีรุ้งจังหวัดนครปฐม
+                <div className="register-logo text-center mb-3">
+                    <b>ระบบให้คำปรึกษาทางไกล</b>
+                    <p>สำหรับผู้รับบริการคลินิกเทคนิคการแพทย์ฟ้าสีรุ้งจังหวัดนครปฐม</p>
                 </div>
                 <div className="card">
                     <div className="card-body register-card-body">
                         <p className="login-box-msg">สมัครใช้งานเพื่อเป็นสมาชิกระบบ</p>
                         <form onSubmit={handleSubmit}>
-                            <div className="input-group mb-3">
-                                <select
-                                    className="form-control"
-                                    name="title"
-                                    value={signupData.title}  // Correct data binding
-                                    onChange={handleChange}
-                                    required
-                                >
-                                    <option value="" disabled>เลือกคำนำหน้า</option>
-                                    <option value="นาย.">นาย.</option>
-                                    <option value="นาง.">นาง.</option>
-                                    <option value="น.ส.">น.ส.</option>
-                                    <option value="Mr.">Mr.</option>
-                                    <option value="Ms.">Ms.</option>
-                                </select>
-                            </div>
-                            <div className="input-group mb-3">
-                                <input
-                                    type="text"
-                                    className="form-control"
-                                    placeholder="Full name"
-                                    name="full_name"  // Updated field name
-                                    value={signupData.full_name}  // Correct data binding
-                                    onChange={handleChange}
-                                    required
-                                />
-                                <div className="input-group-append">
-                                    <div className="input-group-text">
-                                        <span className="fas fa-user" />
+                            <div className="row">
+                                <div className="col-4">
+                                    <div className="input-group mb-3">
+                                        <select
+                                            className="form-control"
+                                            name="title"
+                                            value={signupData.title}
+                                            onChange={handleChange}
+                                            required
+                                        >
+                                            <option value="" disabled>เลือกคำนำหน้า</option>
+                                            <option value="นาย.">นาย.</option>
+                                            <option value="นาง.">นาง.</option>
+                                            <option value="น.ส.">น.ส.</option>
+                                            <option value="Mr.">Mr.</option>
+                                            <option value="Ms.">Ms.</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div className="col-8">
+                                    <div className="input-group mb-3">
+                                        <input
+                                            type="text"
+                                            className="form-control"
+                                            placeholder="ชื่อเต็ม"
+                                            name="full_name"
+                                            value={signupData.full_name}
+                                            onChange={handleChange}
+                                            required
+                                        />
+                                        <div className="input-group-append">
+                                            <div className="input-group-text">
+                                                <span className="fas fa-user" />
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
+
                             <div className="input-group mb-3">
                                 <input
-                                    type="email"
+                                    type="username"
                                     className="form-control"
-                                    placeholder="Email"
-                                    name="email"
-                                    value={signupData.email}  // Correct data binding
+                                    placeholder="ชื่อผู้ใช้"
+                                    name="username"
+                                    value={signupData.username}  
                                     onChange={handleChange}
                                     required
                                 />
@@ -124,9 +134,9 @@ const Register = () => {
                                 <input
                                     type="password"
                                     className="form-control"
-                                    placeholder="Password"
+                                    placeholder="รหัสผ่าน"
                                     name="password"
-                                    value={signupData.password}  // Correct data binding
+                                    value={signupData.password}  // การผูกข้อมูลที่ถูกต้อง
                                     onChange={handleChange}
                                     required
                                 />
@@ -140,9 +150,9 @@ const Register = () => {
                                 <input
                                     type="password"
                                     className="form-control"
-                                    placeholder="Retype password"
+                                    placeholder="พิมพ์รหัสผ่านอีกครั้ง"
                                     name="confirmPassword"
-                                    value={signupData.confirmPassword}  // Correct data binding
+                                    value={signupData.confirmPassword}  // การผูกข้อมูลที่ถูกต้อง
                                     onChange={handleChange}
                                     required
                                 />
@@ -156,9 +166,9 @@ const Register = () => {
                                 <input
                                     type="tel"
                                     className="form-control"
-                                    placeholder="Phone number"
-                                    name="phone"  // Correct field name
-                                    value={signupData.phone}  // Correct data binding
+                                    placeholder="เบอร์โทรศัพท์"
+                                    name="phone"  // ชื่อฟิลด์ที่ถูกต้อง
+                                    value={signupData.phone}  // การผูกข้อมูลที่ถูกต้อง
                                     onChange={handleChange}
                                     required
                                 />
@@ -167,6 +177,30 @@ const Register = () => {
                                         <span className="fas fa-phone" />
                                     </div>
                                 </div>
+                            </div>
+                            <div className="form-group mb-3">
+                                <select
+                                    className="form-control"
+                                    name="role"
+                                    value={signupData.role}
+                                    onChange={handleChange}
+                                    required
+                                >
+                                    <option value="" disabled>เลือกบทบาท</option>
+                                    <option value="OFFICER">เจ้าหน้าที่</option>
+                                    <option value="PHYSICIAN">แพทย์</option>
+                                </select>
+                            </div>
+                            <div className="form-group mb-3">
+                                <input
+                                    type="number"
+                                    className="form-control"
+                                    placeholder="อายุ"
+                                    name="age"
+                                    value={signupData.age}
+                                    onChange={handleChange}
+                                    required
+                                />
                             </div>
                             <div className="row">
                                 <div className="col-12">
