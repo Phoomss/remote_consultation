@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { View, Text, TextInput, TouchableOpacity, Alert } from "react-native";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { Consult } from './../constants/styles';
-import userService from "../services/UserService";
+import userService from "./../services/UserService";
 import bookingService from './../services/BookingService';
 import { useNavigation } from '@react-navigation/native';
 

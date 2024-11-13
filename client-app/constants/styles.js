@@ -130,6 +130,14 @@ export const AuthStyle = StyleSheet.create({
         // backgroundColor: '#69AFEF', // Background color for the screen
         padding: 20,
     },
+    containerSignup: {
+        flex: 1,
+        padding: 20,
+        alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor: 'lightgrey', // เพิ่มสีพื้นหลังเพื่อตรวจสอบขอบเขต container
+    },
+
     // backgroundImage:{
     //     height:240
     // },
@@ -313,13 +321,71 @@ export const Consult = StyleSheet.create({
         shadowRadius: 4,
         width: 296,
         borderColor: '#69AFEF',
-        borderWidth: 1, 
-      },
-      header: {
+        borderWidth: 1,
+    },
+    header: {
         fontSize: 24,
         fontWeight: 'bold',
         marginBottom: 12,
         marginTop: 12,
         color: '#333',
-      },
+    },
 })
+
+export const assessmentStyle = StyleSheet.create({
+    headerText: {
+        fontSize: 22,
+        fontWeight: '700',
+        color: '#333',
+        marginBottom: 15,
+        textAlign: 'center',
+        paddingHorizontal: 20,
+    },
+    descriptionText: {
+        fontSize: 16,
+        color: '#e63946',  // Red color for emphasis
+        textAlign: 'center',
+        marginBottom: 20,
+        fontWeight: '600',
+    },
+    cardAss: {
+        backgroundColor: '#F8F8F8',  // Light gray for card background
+        height: 100,
+        width: '90%',
+        borderRadius: 15,
+        padding: 15,
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.1,
+        shadowRadius: 5,
+        alignSelf: 'center',
+        justifyContent: 'center',
+        marginBottom: 20,
+    },
+    question: {
+        fontSize: 16,
+        lineHeight: 24,
+        fontWeight: '600',
+        color: '#333',
+    },
+    dropdown: {
+        height: 50,
+        width: '100%',
+        borderColor: '#ddd',
+        borderWidth: 1,
+        borderRadius: 5,
+        marginVertical: 10,
+        backgroundColor: '#fff',
+    },
+    submitButton: {
+        backgroundColor: '#69AFEF',
+        borderRadius: 5,
+        padding: 15,
+        alignItems: 'center',
+        marginTop: 20,
+    },
+    submitButtonText: {
+        color: '#fff',
+        fontWeight: 'bold',
+    },
+});

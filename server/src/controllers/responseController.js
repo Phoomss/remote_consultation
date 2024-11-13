@@ -4,30 +4,38 @@ const InternalServer = require("../exceptions/internal-server")
 
 exports.createRespone = async (req, res) => {
     try {
-        const { userId, responses } = req.body
+        const { userId, responses } = req.body;
 
+        // Ensure questionId is treated as an integer
         const responseData = await prisma.response.createMany({
             data: responses.map(response => ({
                 userId: userId,
-                questionId: response.questionId,
+                questionId: parseInt(response.questionId, 10), // Convert questionId to integer
                 answerId: response.answerId
             }))
-        })
+        });
 
         return res.status(201).json({
             message: "Responses created successfully",
             data: responseData
-        })
+        });
     } catch (error) {
-        InternalServer(res, error)
+        InternalServer(res, error);
     }
-}
+};
 
 exports.listResponse = async (req, res) => {
     try {
         const responses = await prisma.response.findMany({
             include: {
-                user: true,
+                user: {
+                    select: {
+                        title: true,
+                        full_name: true,
+                        age: true,
+                        phone: true
+                    }
+                },
                 question: true,
                 answer: true
             }
@@ -51,7 +59,14 @@ exports.responseById = async (req, res) => {
                 id: responseId
             },
             include: {
-                user: true,
+                user: {
+                    select: {
+                        title: true,
+                        full_name: true,
+                        age: true,
+                        phone: true
+                    }
+                },
                 question: true,
                 answer: true
             }
