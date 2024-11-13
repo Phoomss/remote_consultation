@@ -1,5 +1,6 @@
 import React from 'react'
 import Content from '../../components/common/Content'
+import CreateContent from '../../components/common/form/CreateContent'
 
 const OfficerContentPage = () => {
   return (
@@ -19,6 +20,7 @@ const OfficerContentPage = () => {
           </div>{/* /.row */}
         </div>{/* /.container-fluid */}
       </div>
+      <CreateContent />
       <Content />
     </div>
   )

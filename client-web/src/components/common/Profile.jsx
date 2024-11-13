@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react'
-import Swal from 'sweetalert2'
+import React, { useEffect, useState } from 'react';
+import Swal from 'sweetalert2';
 import userService from './../../service/userService';
 
 const Profile = () => {
@@ -11,28 +11,28 @@ const Profile = () => {
     username: '',
     password: '',
     role: ""
-  })
+  });
 
   useEffect(() => {
     const fetchUserInfo = async () => {
       try {
-        const res = await userService.userInfo()
-        const userInfo = res.data.data
+        const res = await userService.userInfo();
+        const userInfo = res.data.data;
         setProfileData({
           title: userInfo.title,
           full_name: userInfo.full_name,
           phone: userInfo.phone,
           age: userInfo.age,
           username: userInfo.username,
-          password: userInfo.password,
+          password: '', // Clear password field initially
           role: userInfo.role
-        })
+        });
       } catch (error) {
         Swal.fire('เกิดข้อผิดพลาด', 'ไม่สามารถดึงข้อมูลผู้ใช้ได้.', 'error');
       }
-    }
-    fetchUserInfo()
-  }, [])
+    };
+    fetchUserInfo();
+  }, []);
 
   const handleChange = (e) => {
     setProfileData({
@@ -44,8 +44,22 @@ const Profile = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    // Prepare data to be sent for update
+    const updatedData = {
+      title: profileData.title,
+      full_name: profileData.full_name,
+      phone: profileData.phone,
+      age: profileData.age,
+      username: profileData.username
+    };
+
+    // If password is provided, include it in the data to be updated
+    if (profileData.password) {
+      updatedData.password = profileData.password;
+    }
+
     try {
-      const response = await userService.editProfile(profileData);
+      const response = await userService.editProfile(updatedData);
       if (response.status === 200) {
         Swal.fire({
           icon: 'success',
@@ -167,7 +181,7 @@ const Profile = () => {
         <button type="submit" className="btn btn-primary mt-4">แก้ไขข้อมูล</button>
       </form>
     </div>
-  )
-}
+  );
+};
 
-export default Profile
+export default Profile;

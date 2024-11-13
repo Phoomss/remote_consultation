@@ -1,5 +1,6 @@
 import React from 'react'
 import Question from '../../components/common/Question'
+import CreateQuestion from './../../components/common/form/CreateQuestion';
 
 const OfficerQuestion = () => {
     return (
@@ -20,6 +21,7 @@ const OfficerQuestion = () => {
                     </div>{/* /.row */}
                 </div>{/* /.container-fluid */}
             </div>
+            <CreateQuestion />
             <Question />
         </div>
     )

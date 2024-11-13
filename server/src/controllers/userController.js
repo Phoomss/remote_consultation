@@ -41,18 +41,23 @@ exports.editProfile = async (req, res) => {
             return res.status(400).json({ message: 'Invalid age value' });
         }
 
-        const hashedPassword = await hashPassword(password);
+        const updatedData = {
+            title,
+            full_name,
+            phone,
+            age: parsedAge,
+            username,
+        };
+
+        // Check if password is provided for update
+        if (password) {
+            const hashedPassword = await hashPassword(password);
+            updatedData.password = hashedPassword;
+        }
 
         const updatedUser = await prisma.user.update({
             where: { id: userId },
-            data: {
-                title,
-                full_name,
-                phone,
-                age: parsedAge,
-                username,
-                password: hashedPassword,
-            },
+            data: updatedData,
         });
 
         res.status(200).json({
