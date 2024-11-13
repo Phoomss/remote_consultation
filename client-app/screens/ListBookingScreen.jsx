@@ -26,15 +26,15 @@ export default function ListBookingScreen() {
       "คุณต้องการลบการจองนี้ใช่หรือไม่?",
       [
         { text: "ยกเลิก", style: "cancel" },
-        { 
-          text: "ลบ", 
+        {
+          text: "ลบ",
           onPress: async () => {
             try {
               await bookingService.deleteBooking(bookingId);
               setBookingInfo(prevInfo => prevInfo.filter(booking => booking.id !== bookingId));
               Alert.alert("สำเร็จ", "การจองถูกลบแล้ว");
             } catch (error) {
-              console.error("Failed to delete booking", error);
+              // console.error("Failed to delete booking", error);
               Alert.alert("ผิดพลาด", "ไม่สามารถลบการจองได้");
             }
           },
@@ -66,22 +66,26 @@ export default function ListBookingScreen() {
           สรุปรายการนัดหมาย
         </Text>
         <ScrollView style={{ marginTop: 10 }}>
-          {bookingInfo.map((booking, index) => (
-            <View key={index} style={[Consult.card]}>
-              <Text style={{ fontSize: 18, fontWeight: '500', color: '#555' }}>
-                {formatDateTime(booking.appointment)}
-              </Text>
-              <Text style={{ fontSize: 16, marginTop: 4, color: '#777' }}>
-                {booking.booking_type === 'bloodTest' ? 'จองคิวเจาะเลือด' : 'จองคิวปรึกษา'}
-              </Text>
-              <Text style={{ fontSize: 16, marginTop: 4, color: '#777' }}>
-                {booking.booking_detail}
-              </Text>
-              <TouchableOpacity onPress={() => handleDelete(booking.id)} style={{ marginTop: 10 }}>
-                <Text style={{ color: 'red', fontWeight: 'bold' }}>ลบการจอง</Text>
-              </TouchableOpacity>
-            </View>
-          ))}
+          {bookingInfo.length > 0 ? (
+            bookingInfo.map((booking, index) => (
+              <View key={index} style={[Consult.card]}>
+                <Text style={{ fontSize: 18, fontWeight: '500', color: '#555' }}>
+                  {formatDateTime(booking.appointment)}
+                </Text>
+                <Text style={{ fontSize: 16, marginTop: 4, color: '#777' }}>
+                  {booking.booking_type === 'bloodTest' ? 'จองคิวเจาะเลือด' : 'จองคิวปรึกษา'}
+                </Text>
+                <Text style={{ fontSize: 16, marginTop: 4, color: '#777' }}>
+                  {booking.booking_detail}
+                </Text>
+                <TouchableOpacity onPress={() => handleDelete(booking.id)} style={{ marginTop: 10 }}>
+                  <Text style={{ color: 'red', fontWeight: 'bold' }}>ลบการจอง</Text>
+                </TouchableOpacity>
+              </View>
+            ))
+          ) : (
+            <Text>ไม่พบข้อมูลรายการนัดหมาย</Text>
+          )}
         </ScrollView>
       </View>
     </View>

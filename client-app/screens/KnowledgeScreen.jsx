@@ -65,7 +65,7 @@ export default function KnowledgeScreen() {
             </TouchableOpacity>
           ))
         ) : (
-          <Text>ไม่พบข้อมูล</Text>
+          <Text>ไม่พบเนื้อหาสาระน่ารู้</Text>
         )}
       </View>
     </View>

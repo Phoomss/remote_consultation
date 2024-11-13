@@ -11,3 +11,11 @@ exports.userInfo = async (req, res) => {
         InternalServer(res, error)
     }
 };
+
+exports.editProfile = async(req,res)=>{
+    try {
+        
+    } catch (error) {
+        InternalServer(res,error)
+    }
+}
