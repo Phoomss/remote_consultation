@@ -20,19 +20,19 @@ enum BookingType {
 }
 
 enum CaseStatus {
+  succeed
   accepted
   notAccepting
 }
 
 model Content {
-  id           Int      @id @default(autoincrement())
-  content_name String
-  content_detail    String   @db.Text
-  createdAt    DateTime @default(now()) @db.Timestamp()
+  id             Int      @id @default(autoincrement())
+  content_name   String
+  content_detail String   @db.Text
+  createdAt      DateTime @default(now()) @db.Timestamp()
 
   @@map("contents")
 }
-
 
 model User {
   id        Int      @id @default(autoincrement())
@@ -57,7 +57,7 @@ model Booking {
   id             Int         @id @default(autoincrement())
   userId         Int
   booking_type   BookingType
-  booking_detail String?      @db.Text
+  booking_detail String?     @db.Text
   appointment    DateTime    @default(now()) @db.Timestamp()
   createdAt      DateTime    @default(now()) @db.Timestamp()
 
@@ -94,10 +94,10 @@ model Question {
 }
 
 model Answer {
-  id         Int      @id @default(autoincrement())
-  questionId Int
-  answer_text String   
-  createdAt  DateTime @default(now()) @db.Timestamp()
+  id          Int      @id @default(autoincrement())
+  questionId  Int
+  answer_text String
+  createdAt   DateTime @default(now()) @db.Timestamp()
 
   question Question   @relation(fields: [questionId], references: [id])
   Response Response[]
