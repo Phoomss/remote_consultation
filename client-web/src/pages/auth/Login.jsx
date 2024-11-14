@@ -33,7 +33,7 @@ const Login = () => {
                         timerProgressBar: true,
                         showConfirmButton: false,
                     })
-                    navigate('/admin/dashboard');
+                    navigate('/admin/reservation');
                     break;
                 case 'OFFICER':
                     Swal.fire({
@@ -44,7 +44,7 @@ const Login = () => {
                         timerProgressBar: true,
                         showConfirmButton: false,
                     })
-                    navigate('/officer/dashboard');
+                    navigate('/officer/reservation');
                     break;
                 case 'PHYSICIAN':
                     Swal.fire({

@@ -5,8 +5,6 @@ import Register from './pages/auth/Register';
 import AdminLayout from './layouts/AdminLayout'
 import OfficerLayout from './layouts/OfficerLayout'
 import PhysicianLayout from './layouts/PhysicianLayout'
-import AdminDashboardPage from './pages/admin/AdminDashboardPage';
-import OfficerDashboardPage from './pages/officer/OfficerDashboardPage';
 import PhysicianDashboardPage from './pages/physician/PhysicianDashboardPage';
 import AdminContentPage from './pages/admin/AdminContentPage';
 import OfficerContentPage from './pages/officer/OfficerContentPage';
@@ -39,7 +37,6 @@ function App() {
         <Route path='/register' element={<Register />} />
 
         <Route element={<AdminLayout />}>
-          <Route path='/admin/dashboard' element={<AdminDashboardPage />} />
           <Route path='/admin/content' element={<AdminContentPage />} />
           <Route path='/admin/reservation' element={<AdminBookingPage />} />
           <Route path='/admin/assessment/question' element={<AdminQuestionPage />} />
@@ -52,7 +49,6 @@ function App() {
           <Route path='/admin/user/detail/:userId' element={<AdminUserDetail />} />
         </Route>
         <Route element={<OfficerLayout />}>
-          <Route path='/officer/dashboard' element={<OfficerDashboardPage />} />
           <Route path='/officer/content' element={<OfficerContentPage />} />
           <Route path='/officer/reservation' element={<OfficerBooking />} />
           <Route path='/officer/assessment/question' element={<OfficerQuestion />} />
