@@ -13,6 +13,10 @@ const userList = () => {
     return http.get('/api/user')
 }
 
+const userCount = () => {
+    return http.get('/api/user/count')
+}
+
 const searchRolePhysician = () => {
     return http.get('/api/user/search?role=PHYSICIAN')
 }
@@ -31,6 +35,7 @@ const editProfile = async (profileData) => {
 const userService = {
     userInfo,
     userList,
+    userCount,
     searchRolePhysician,
     userById,
     updateUser,

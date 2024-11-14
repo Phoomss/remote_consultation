@@ -1,5 +1,6 @@
 import React from 'react'
 import User from '../../components/admin/User'
+import CardUser from '../../components/common/card/CardUser'
 
 const AdminUserPage = () => {
     return (
@@ -19,6 +20,7 @@ const AdminUserPage = () => {
                     </div>{/* /.row */}
                 </div>{/* /.container-fluid */}
             </div>
+            <CardUser/>
             <User />
         </div>
     )

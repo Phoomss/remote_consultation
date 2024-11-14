@@ -176,3 +176,44 @@ exports.updateUser = async (req, res) => {
         InternalServer(res, error);
     }
 };
+
+exports.countUser = async (req, res) => {
+    try {
+      // นับจำนวนผู้ใช้ทั้งหมด
+      const totalUsers = await prisma.user.count({
+        where: {
+          role: {
+            in: ['USER', 'OFFICER', 'PHYSICIAN'] // เฉพาะ role ที่ระบุ
+          }
+        }
+      });
+  
+      // นับจำนวนผู้ใช้แยกตาม role
+      const query = await prisma.user.groupBy({
+        by: ['role'],
+        _count: {
+          role: true
+        },
+        where: {
+          role: {
+            in: ['USER', 'OFFICER', 'PHYSICIAN']
+          }
+        }
+      });
+  
+      // ถ้าไม่พบข้อมูล
+      if (!query || query.length === 0) {
+        return res.status(404).json({ message: "No users found" });
+      }
+  
+      // ส่งข้อมูลกลับไปพร้อมจำนวนผู้ใช้ทั้งหมด
+      return res.status(200).json({
+        message: "List of user retrieved successfully",
+        data: query,
+        totalUsers: totalUsers // จำนวนผู้ใช้ทั้งหมด
+      });
+    } catch (error) {
+      InternalServer(res, error);
+    }
+  };
+  
