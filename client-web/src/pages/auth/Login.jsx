@@ -55,7 +55,7 @@ const Login = () => {
                         timerProgressBar: true,
                         showConfirmButton: false,
                     })
-                    navigate('/physician/dashboard');
+                    navigate('/physician/consult');
                     break;
                 default:
                     navigate('/');

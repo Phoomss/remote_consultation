@@ -50,7 +50,10 @@ exports.createCase = async (req, res) => {
 exports.caseInfo = async (req, res) => {
     try {
         const query = await prisma.case.findMany({
-            where:{physicianId: req.user.id},
+            where: {
+                physicianId: req.user.id,
+                case_status: 'accepting'
+            },
             include: {
                 officer: {
                     select: {

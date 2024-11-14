@@ -10,9 +10,7 @@ const caseInfo = async () => {
         http.defaults.headers.common['Authorization'] = token
     }
 
-    const res = await http.get('/api/case/info')
-
-    return res.data.data
+    return http.get('/api/case/info')
 }
 
 const caseList = async () => {

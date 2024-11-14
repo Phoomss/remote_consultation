@@ -25,6 +25,7 @@ import OfficerAssessmentDetailPage from './pages/officer/OfficerAssessmentDetail
 import AdminAssessmentDetail from './pages/admin/AdminAssessmentDetail';
 import AdminConsultPage from './pages/admin/AdminConsultPage';
 import OfficerConsultPage from './pages/officer/OfficerConsultPage';
+import PhysicianConsultPage from './pages/physician/PhysicianConsultPage';
 
 function App() {
 
@@ -60,6 +61,7 @@ function App() {
         <Route element={<PhysicianLayout />}>
           <Route path='/physician/dashboard' element={<PhysicianDashboardPage />} />
           <Route path='/physician/profile' element={<PhysicianProfilePage />} />
+          <Route path='/physician/consult' element={<PhysicianConsultPage />} />
         </Route>
       </Routes>
     </BrowserRouter>
