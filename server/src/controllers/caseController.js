@@ -3,25 +3,141 @@ const InternalServer = require("../exceptions/internal-server")
 
 exports.createCase = async (req, res) => {
     try {
-        const { bookingId, officerId, physicainId } = req.body
+        const { bookingId, officerId, physicianId } = req.body;
 
-        const newCase = prisma.case.create({
+        const parsedBookingId = parseInt(bookingId, 10);
+        const parsedOfficerId = parseInt(officerId, 10);
+        const parsedPhysicianId = parseInt(physicianId, 10);
+
+        if (isNaN(parsedPhysicianId)) {
+            return res.status(400).json({ message: 'Invalid physicianId' });
+        }
+
+        const booking = await prisma.booking.findUnique({ where: { id: parsedBookingId } });
+        const officer = await prisma.user.findUnique({ where: { id: parsedOfficerId } });
+        const physician = await prisma.user.findUnique({ where: { id: parsedPhysicianId } });
+
+        if (!booking) {
+            return res.status(404).json({ message: 'Booking not found' });
+        }
+        if (!officer) {
+            return res.status(404).json({ message: 'Officer not found' });
+        }
+        if (!physician) {
+            return res.status(404).json({ message: 'Physician not found' });
+        }
+
+        const newCase = await prisma.case.create({
             data: {
-                bookingId: bookingId,
-                officerId: officerId,
-                physicianId: physicainId,
-                case_status: 'notAccepting'
+                bookingId: parsedBookingId, // ใช้ bookingId แทนการใช้ booking
+                officerId: parsedOfficerId,
+                physicianId: parsedPhysicianId,
+                case_status: 'accepting',
             }
-        })
+        });
 
+        console.log(newCase);
         return res.status(201).json({
             message: "Case created successfully",
             data: newCase
         });
     } catch (error) {
-        InternalServer(res, error)
+        console.error(error);
+        return res.status(500).json({ message: 'Internal Server Error' });
     }
-}
+};
+
+exports.caseInfo = async (req, res) => {
+    try {
+        const query = await prisma.case.findMany({
+            where:{physicianId: req.user.id},
+            include: {
+                officer: {
+                    select: {
+                        title: true,
+                        full_name: true,
+                        phone: true,
+                        role: true
+                    }
+                },
+                physician: {
+                    select: {
+                        title: true,
+                        full_name: true,
+                        phone: true,
+                        role: true
+                    }
+                },
+                booking: {
+                    select: {
+                        booking_type: true,
+                        booking_detail: true,
+                        appointment: true,
+                        user: {
+                            select: {
+                                title: true,
+                                full_name: true,
+                                phone: true
+                            }
+                        }
+                    }
+                }
+            }
+        });
+
+        return res.status(200).json({
+            message: "List of cases",
+            data: query
+        });
+    } catch (error) {
+        InternalServer(res, error);
+    }
+};
+exports.caseList = async (req, res) => {
+    try {
+        const query = await prisma.case.findMany({
+            include: {
+                officer: {
+                    select: {
+                        title: true,
+                        full_name: true,
+                        phone: true,
+                        role: true
+                    }
+                },
+                physician: {
+                    select: {
+                        title: true,
+                        full_name: true,
+                        phone: true,
+                        role: true
+                    }
+                },
+                booking: {
+                    select: {
+                        booking_type: true,
+                        booking_detail: true,
+                        appointment: true,
+                        user: {
+                            select: {
+                                title: true,
+                                full_name: true,
+                                phone: true
+                            }
+                        }
+                    }
+                }
+            }
+        });
+
+        return res.status(200).json({
+            message: "List of cases",
+            data: query
+        });
+    } catch (error) {
+        InternalServer(res, error);
+    }
+};
 
 exports.caseList = async (req, res) => {
     try {

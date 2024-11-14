@@ -20,9 +20,8 @@ enum BookingType {
 }
 
 enum CaseStatus {
-  succeed
-  accepted
-  notAccepting
+  completed
+  accepting
 }
 
 model Content {
@@ -58,7 +57,7 @@ model Booking {
   userId         Int
   booking_type   BookingType
   booking_detail String?     @db.Text
-  appointment    DateTime    @default(now()) @db.Timestamp()
+  appointment    DateTime?   @default(now()) @db.Timestamp()
   createdAt      DateTime    @default(now()) @db.Timestamp()
 
   Case Case[]

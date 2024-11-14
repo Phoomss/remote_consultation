@@ -68,3 +68,37 @@ exports.editProfile = async (req, res) => {
         InternalServer(res, error);
     }
 };
+
+exports.userList = async (req, res) => {
+    try {
+        const query = await prisma.user.findMany();
+
+        res.status(200).json({ message: "User list retrieved successfully", data: query });
+    } catch (error) {
+        InternalServer(res, error);
+    }
+}
+
+exports.searchUser = async (req, res) => {
+    try {
+        const { role } = req.query;
+
+        const whereClause = {};
+        if (role) {
+            whereClause.role = role;
+        }
+
+        const query = await prisma.user.findMany({ where: whereClause });
+
+        if (query.length === 0) {
+            return res.status(404).json({
+                status_code: 404,
+                msg: 'User not found'
+            });
+        }
+
+        res.status(200).json({ message: "User search retrieved successfully", data: query });
+    } catch (error) {
+        InternalServer(res, error);
+    }
+}

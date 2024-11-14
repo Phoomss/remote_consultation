@@ -23,6 +23,8 @@ import AdminAssessmentPage from './pages/admin/AdminAssessmentPage';
 import OfficerAssessmentPage from './pages/officer/OfficerAssessmentPage';
 import OfficerAssessmentDetailPage from './pages/officer/OfficerAssessmentDetailPage';
 import AdminAssessmentDetail from './pages/admin/AdminAssessmentDetail';
+import AdminConsultPage from './pages/admin/AdminConsultPage';
+import OfficerConsultPage from './pages/officer/OfficerConsultPage';
 
 function App() {
 
@@ -42,6 +44,7 @@ function App() {
           <Route path='/admin/profile' element={<AdminProfilePage />} />
           <Route path='/admin/assessment/response' element={<AdminAssessmentPage />} />
           <Route path='/assessment/response/:userId' element={<AdminAssessmentDetail />} />
+          <Route path='/admin/consult' element={<AdminConsultPage />} />
         </Route>
         <Route element={<OfficerLayout />}>
           <Route path='/officer/dashboard' element={<OfficerDashboardPage />} />
@@ -50,8 +53,9 @@ function App() {
           <Route path='/officer/assessment/question' element={<OfficerQuestion />} />
           <Route path='/officer/assessment/answer' element={<OfficerAnswerPage />} />
           <Route path='/officer/profile' element={<OfficerProfilePage />} />
-          <Route path='/officer/assessment/reponse' element={<OfficerAssessmentPage />} />
+          <Route path='/officer/assessment/response' element={<OfficerAssessmentPage />} />
           <Route path='/assessment/reponse/:userId' element={<OfficerAssessmentDetailPage />} />
+          <Route path='/officer/consult' element={<OfficerConsultPage />} />
         </Route>
         <Route element={<PhysicianLayout />}>
           <Route path='/physician/dashboard' element={<PhysicianDashboardPage />} />

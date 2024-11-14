@@ -20,7 +20,7 @@ exports.createBooking = async (req, res) => {
                 userId: userId,
                 booking_type: booking_type,
                 booking_detail: booking_detail,
-                appointment: parsedAppointment // Using the parsed date
+                appointment: parsedAppointment
             }
         });
 
@@ -34,6 +34,40 @@ exports.createBooking = async (req, res) => {
     }
 };
 
+exports.searchBookingConsult = async (req, res) => {
+    try {
+        const { booking_type } = req.query;
+
+        const whereClause = {};
+        if (booking_type) {
+            whereClause.booking_type = booking_type;
+        }
+
+        const query = await prisma.booking.findMany({
+            where: whereClause,
+            include: {
+                user: {
+                    select: {
+                        title: true,
+                        full_name: true,
+                        phone: true
+                    }
+                }
+            }
+        });
+
+        if (query.length === 0) {
+            return res.status(404).json({
+                status_code: 404,
+                msg: 'Booking not found'
+            });
+        }
+
+        res.status(200).json({ message: "Booking search retrieved successfully", data: query });
+    } catch (error) {
+        InternalServer(res, error);
+    }
+};
 
 exports.listBooking = async (req, res) => {
     try {

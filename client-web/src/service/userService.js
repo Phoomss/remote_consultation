@@ -9,11 +9,21 @@ const userInfo = () => {
     return http.get("/api/user/userInfo");
 };
 
+const userList = () => {
+    return http.get('/api/user')
+}
+
+const searchRolePhysician = () => {
+    return http.get('/api/user/search?role=PHYSICIAN')
+}
+
 const editProfile = async (profileData) => {
     return http.put('/api/user/editProfile', profileData)
 }
 const userService = {
     userInfo,
+    userList,
+    searchRolePhysician,
     editProfile
 }
 

@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import bookingService from '../../../service/ิิิิิิิิbookingService';
-
+import bookingService from './../../../service/bookingService';
 
 const CardBookingType = () => {
     const [count, setCount] = useState([]);
