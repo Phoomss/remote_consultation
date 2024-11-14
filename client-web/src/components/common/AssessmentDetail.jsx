@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import assessmentService from './../../service/assessmentService';
+import DatePicker from 'react-datepicker'; // Import react-datepicker
+import "react-datepicker/dist/react-datepicker.css"; // Import CSS for react-datepicker
 
 const AssessmentDetail = () => {
   const { responseId, userId } = useParams();
@@ -9,6 +11,7 @@ const AssessmentDetail = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage] = useState(10); 
   const [totalPages, setTotalPages] = useState(1);
+  const [selectedDate, setSelectedDate] = useState(null); // State for storing selected date
 
   useEffect(() => {
     const fetchAssessmentDetail = async () => {
@@ -24,6 +27,7 @@ const AssessmentDetail = () => {
         setError('เกิดข้อผิดพลาดในการดึงข้อมูล');
       }
     };
+    
     fetchAssessmentDetail();
   }, [responseId, userId, itemsPerPage]);
 
@@ -42,17 +46,55 @@ const AssessmentDetail = () => {
     setCurrentPage(prev => Math.min(prev + 1, totalPages));
   };
 
+  const handleDateChange = (date) => {
+    setSelectedDate(date);
+    if (date) {
+      // แปลงวันที่ที่เลือกเป็นวันที่โดยไม่สนใจเวลา
+      const selectedDateString = date.toLocaleDateString();
+      
+      // กรองข้อมูลตามวันที่ที่เลือก
+      const filteredData = assessmentDetail.filter(assessment => {
+        const createdAtDateString = new Date(assessment.createdAt).toLocaleDateString();
+        return selectedDateString === createdAtDateString; // เปรียบเทียบแค่วันที่
+      });
+  
+      setAssessmentDetail(filteredData);
+      setTotalPages(Math.ceil(filteredData.length / itemsPerPage));
+      setCurrentPage(1); // รีเซ็ตไปที่หน้าที่ 1 หลังจากกรองข้อมูล
+    } else {
+      // ถ้าไม่มีการเลือกวันที่ ให้โหลดข้อมูลทั้งหมด
+      fetchAssessmentDetail();
+    }
+  };  
+
   if (error) {
     return <div className="alert alert-danger">{error}</div>;
   }
-
-  if (!assessmentDetail.length) {
-    return <div>กำลังโหลดข้อมูล...</div>;
+  
+  if (assessmentDetail.length === 0) {
+    return (
+      <div className="alert alert-info">
+        ไม่มีข้อมูลที่ตรงกับวันที่ที่เลือก
+      </div>
+    );
   }
-
+  
   return (
     <div className="tb-content mt-3">
       {error && <div className="alert alert-danger">{error}</div>}
+
+      <div className="mb-3">
+        <label htmlFor="assessmentDate" className="form-label">เลือกวันที่:</label>
+        <DatePicker
+          id="assessmentDate"
+          selected={selectedDate}
+          onChange={handleDateChange}
+          dateFormat="dd/MM/yyyy"
+          className="form-control"
+          placeholderText="เลือกวันที่"
+          isClearable
+        />
+      </div>
 
       {currentResponse.length > 0 && (
         <div className="card mb-4">
@@ -74,7 +116,7 @@ const AssessmentDetail = () => {
               <th scope="col">#</th>
               <th scope="col">คำถาม</th>
               <th scope="col">คำตอบ</th>
-              <th scope="col">วันที่ทำแบบประเมินความเสี่ยง</th> {/* Added column header */}
+              <th scope="col">วันที่ทำแบบประเมินความเสี่ยง</th>
             </tr>
           </thead>
           <tbody>
@@ -84,7 +126,7 @@ const AssessmentDetail = () => {
                   <td>{indexOfFirstItem + index + 1}</td>
                   <td>{assessment.question.ques_name}</td>
                   <td>{assessment.answer.answer_text}</td>
-                  <td>{new Date(assessment.createdAt).toLocaleDateString()}</td> {/* Display date */}
+                  <td>{new Date(assessment.createdAt).toLocaleDateString()}</td>
                 </tr>
               ))
             ) : (
