@@ -10,7 +10,8 @@ userRouter.get('/', authMiddleware, userController.userList);
 userRouter.get('/search', authMiddleware, userController.searchUser);
 userRouter.get('/:id', authMiddleware, userController.userById);
 
-userRouter.put('/:id', authMiddleware, userController.updateUser);
 userRouter.put('/editProfile', authMiddleware, userController.editProfile);
+userRouter.put('/:id', authMiddleware, userController.updateUser);
+
 
 module.exports = userRouter;

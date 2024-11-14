@@ -59,7 +59,7 @@ exports.editProfile = async (req, res) => {
             where: { id: userId },
             data: updatedData,
         });
-
+        console.log(updatedUser)
         res.status(200).json({
             message: "Profile updated successfully!",
             data: updatedUser,
