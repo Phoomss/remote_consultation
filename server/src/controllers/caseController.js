@@ -47,6 +47,33 @@ exports.createCase = async (req, res) => {
     }
 };
 
+exports.countCaseStatus = async (req, res) => {
+    try {
+        const query = await prisma.case.groupBy({
+            by: ['case_status'],
+            _count: {
+                case_status: true
+            },
+            where: {
+                case_status: {
+                    in: ['completed', 'accepting']
+                }
+            }
+        });
+
+        if (!query || query.length === 0) {
+            return res.status(404).json({ message: "No cases found" });
+        }
+
+        return res.status(200).json({
+            message: "List of cases retrieved successfully",
+            data: query
+        });
+    } catch (error) {
+        InternalServer(res, error)
+    }
+};
+
 exports.caseInfo = async (req, res) => {
     try {
         const query = await prisma.case.findMany({
@@ -96,51 +123,6 @@ exports.caseInfo = async (req, res) => {
         InternalServer(res, error);
     }
 };
-exports.caseList = async (req, res) => {
-    try {
-        const query = await prisma.case.findMany({
-            include: {
-                officer: {
-                    select: {
-                        title: true,
-                        full_name: true,
-                        phone: true,
-                        role: true
-                    }
-                },
-                physician: {
-                    select: {
-                        title: true,
-                        full_name: true,
-                        phone: true,
-                        role: true
-                    }
-                },
-                booking: {
-                    select: {
-                        booking_type: true,
-                        booking_detail: true,
-                        appointment: true,
-                        user: {
-                            select: {
-                                title: true,
-                                full_name: true,
-                                phone: true
-                            }
-                        }
-                    }
-                }
-            }
-        });
-
-        return res.status(200).json({
-            message: "List of cases",
-            data: query
-        });
-    } catch (error) {
-        InternalServer(res, error);
-    }
-};
 
 exports.caseList = async (req, res) => {
     try {
@@ -188,6 +170,51 @@ exports.caseList = async (req, res) => {
     }
 };
 
+exports.caseList = async (req, res) => {
+    try {
+        const query = await prisma.case.findMany({
+            include: {
+                officer: {
+                    select: {
+                        title: true,
+                        full_name: true,
+                        phone: true,
+                        role: true
+                    }
+                },
+                physician: {
+                    select: {
+                        title: true,
+                        full_name: true,
+                        phone: true,
+                        role: true
+                    }
+                },
+                booking: {
+                    select: {
+                        booking_type: true,
+                        booking_detail: true,
+                        appointment: true,
+                        user: {
+                            select: {
+                                title: true,
+                                full_name: true,
+                                phone: true
+                            }
+                        }
+                    }
+                }
+            }
+        });
+
+        return res.status(200).json({
+            message: "List of cases",
+            data: query
+        });
+    } catch (error) {
+        InternalServer(res, error);
+    }
+};
 
 exports.caseById = async (req, res) => {
     try {

@@ -6,6 +6,7 @@ const authMiddleware = require('../middlewares/authMiddleware')
 caseRouter.post('/create', caseController.createCase)
 
 caseRouter.get('/', caseController.caseList)
+caseRouter.get('/count', caseController.countCaseStatus)
 caseRouter.get('/info', [authMiddleware], caseController.caseInfo)
 caseRouter.get('/:id', caseController.caseById)
 

@@ -8,12 +8,13 @@ const Consult = () => {
   const [error, setError] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage] = useState(10);
+  const [searchStatus, setSearchStatus] = useState('');  // Corrected searchStatus name
 
   const fetchCase = async () => {
     try {
       const res = await caseService.caseList();
       setCases(res.data.data);
-      setFilteredCase(res.data.data);
+      setFilteredCase(res.data.data);  // Initial filteredCase set to all cases
     } catch (error) {
       setError('Error fetching cases');
     }
@@ -35,6 +36,17 @@ const Consult = () => {
     setCurrentPage(pageNumber);
   };
 
+  const handleSearch = () => {
+    // Filter cases based on selected searchStatus
+    if (searchStatus === '') {
+      setFilteredCase(cases);  // If no status selected, show all cases
+    } else {
+      const filtered = cases.filter(caseItem => caseItem.case_status === searchStatus);
+      setFilteredCase(filtered);
+    }
+    setCurrentPage(1); // Reset to first page after filtering
+  };
+
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentCases = filteredCase.slice(indexOfFirstItem, indexOfLastItem);
@@ -51,24 +63,41 @@ const Consult = () => {
       cancelButtonColor: '#d33',
       confirmButtonText: 'ใช่, ลบเลย!'
     });
-  
+
     if (confirm.isConfirmed) {
       try {
         await caseService.deleteCase(caseId);  // เรียก API เพื่อลบเคส
         const res = await caseService.caseList();  // ดึงข้อมูลเคสที่อัปเดต
         setCases(res.data.data);
         setFilteredCase(res.data.data);
-  
+
         Swal.fire('ลบแล้ว!', 'เคสของคุณถูกลบเรียบร้อยแล้ว', 'success');
       } catch (error) {
         Swal.fire('เกิดข้อผิดพลาด!', 'เกิดข้อผิดพลาดในการลบเคส', 'error');
       }
     }
   };
-  
+
   return (
     <div className="tb-assment-response mt-3">
       {error && <div className="alert alert-danger">{error}</div>}
+
+      <div className="mb-3">
+        <label htmlFor="searchStatus" className="form-label">ค้นหาตามสถานะเคส:</label>
+        <select
+          id="searchStatus"
+          className="form-select"
+          value={searchStatus}
+          onChange={(e) => {
+            setSearchStatus(e.target.value);
+            handleSearch(); // Call handleSearch when status is changed
+          }}
+        >
+          <option value="">ทั้งหมด</option>
+          <option value="completed">รับเคส</option>
+          <option value="accepting">รับเข้าปรึกษาแล้ว</option>
+        </select>
+      </div>
 
       <div className="table-responsive">
         <table className="table table-bordered table-gray table-striped text-center">
@@ -90,7 +119,7 @@ const Consult = () => {
                   <td>{caseItem.booking.user.title} {caseItem.booking.user.full_name}</td>
                   <td>{caseItem.officer.title} {caseItem.officer.full_name}</td>
                   <td>{caseItem.physician.title} {caseItem.physician.full_name}</td>
-                  <td>{caseItem.case_status === 'accepting' ? 'รับเคส' : 'สถานะไม่ตรงกับคำที่กำหนด'}</td>
+                  <td>{caseItem.case_status === 'accepting' ? 'รับเคส' : 'รับเข้าปรึกษาแล้ว'}</td>
                   <td>
                     <button className="btn btn-danger btn-sm" onClick={() => handleDelete(caseItem.id)}>ลบ</button>
                   </td>

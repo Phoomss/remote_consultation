@@ -1,6 +1,7 @@
 import React from 'react'
 import CreateConsult from '../../components/common/form/CreateConsult'
 import Consult from '../../components/common/Consult'
+import CardCaseStatus from '../../components/common/card/CardCaseStatus'
 
 const OfficerConsultPage = () => {
     return (
@@ -20,6 +21,7 @@ const OfficerConsultPage = () => {
                     </div>{/* /.row */}
                 </div>{/* /.container-fluid */}
             </div>
+            <CardCaseStatus />
             <CreateConsult />
             <Consult />
         </div>

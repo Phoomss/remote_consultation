@@ -17,6 +17,10 @@ const caseList = async () => {
     return http.get('/api/case')
 }
 
+const caseCount = async () => {
+    return http.get('/api/case/count')
+}
+
 const caseDetail = async (caseId) => {
     return http.get(`/api/case/${caseId}`)
 }
@@ -33,6 +37,7 @@ const caseService = {
     createCase,
     caseInfo,
     caseList,
+    caseCount,
     caseDetail,
     updateCase,
     deleteCase
