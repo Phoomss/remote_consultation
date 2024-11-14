@@ -17,6 +17,14 @@ const searchRolePhysician = () => {
     return http.get('/api/user/search?role=PHYSICIAN')
 }
 
+const userById = async (userId) => {
+    return http.get(`/api/user/${userId}`)
+}
+
+const updateUser = async (userData, userId) => {
+    return http.put(`/api/user/${userId}`, userData)
+}
+
 const editProfile = async (profileData) => {
     return http.put('/api/user/editProfile', profileData)
 }
@@ -24,6 +32,8 @@ const userService = {
     userInfo,
     userList,
     searchRolePhysician,
+    userById,
+    updateUser,
     editProfile
 }
 

@@ -26,6 +26,8 @@ import AdminAssessmentDetail from './pages/admin/AdminAssessmentDetail';
 import AdminConsultPage from './pages/admin/AdminConsultPage';
 import OfficerConsultPage from './pages/officer/OfficerConsultPage';
 import PhysicianConsultPage from './pages/physician/PhysicianConsultPage';
+import AdminUserPage from './pages/admin/AdminUserPage';
+import AdminUserDetail from './pages/admin/AdminUserDetail';
 
 function App() {
 
@@ -46,6 +48,8 @@ function App() {
           <Route path='/admin/assessment/response' element={<AdminAssessmentPage />} />
           <Route path='/assessment/response/:userId' element={<AdminAssessmentDetail />} />
           <Route path='/admin/consult' element={<AdminConsultPage />} />
+          <Route path='/admin/user' element={<AdminUserPage />} />
+          <Route path='/admin/user/detail/:userId' element={<AdminUserDetail />} />
         </Route>
         <Route element={<OfficerLayout />}>
           <Route path='/officer/dashboard' element={<OfficerDashboardPage />} />

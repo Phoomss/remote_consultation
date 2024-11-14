@@ -79,6 +79,21 @@ exports.userList = async (req, res) => {
     }
 }
 
+exports.userById = async (req, res) => {
+    try {
+        const userId = parseInt(req.params.id)
+        const query = await prisma.user.findUnique({
+            where: {
+                id: userId
+            }
+        });
+
+        res.status(200).json({ message: "User list retrieved successfully", data: query });
+    } catch (error) {
+        InternalServer(res, error);
+    }
+}
+
 exports.searchUser = async (req, res) => {
     try {
         const { role } = req.query;
@@ -102,3 +117,62 @@ exports.searchUser = async (req, res) => {
         InternalServer(res, error);
     }
 }
+
+exports.updateUser = async (req, res) => {
+    const { title, full_name, phone, age, username, password } = req.body;
+    const userId = parseInt(req.params.id); // รับ id ของผู้ใช้ที่ต้องการอัพเดตจาก URL params
+
+    try {
+        // ตรวจสอบว่ามีชื่อผู้ใช้หรือเบอร์โทรที่ซ้ำกันในระบบหรือไม่ (ยกเว้นผู้ใช้ที่กำลังอัพเดต)
+        const existingUsername = await prisma.user.findFirst({
+            where: { username, id: { not: userId } } // Exclude the current user
+        });
+
+        const existingPhone = await prisma.user.findFirst({
+            where: { phone, id: { not: userId } } // Exclude the current user
+        });
+
+        if (existingUsername) {
+            return res.status(409).json({ message: 'Username already exists' });
+        }
+
+        if (existingPhone) {
+            return res.status(409).json({ message: 'Phone number already exists' });
+        }
+
+        // ตรวจสอบว่า age เป็นค่าที่ถูกต้องหรือไม่
+        const parsedAge = parseInt(age);
+        if (isNaN(parsedAge)) {
+            return res.status(400).json({ message: 'Invalid age value' });
+        }
+
+        // เตรียมข้อมูลที่จะอัพเดต
+        const updatedData = {
+            title,
+            full_name,
+            phone,
+            age: parsedAge,
+            username,
+        };
+
+        // หากมีการเปลี่ยนรหัสผ่าน ก็จะทำการแฮชรหัสผ่านใหม่
+        if (password) {
+            const hashedPassword = await hashPassword(password);
+            updatedData.password = hashedPassword;
+        }
+
+        // อัพเดตข้อมูลผู้ใช้ในฐานข้อมูล
+        const updatedUser = await prisma.user.update({
+            where: { id: userId },
+            data: updatedData,
+        });
+
+        // ส่งข้อมูลกลับไปที่ client
+        res.status(200).json({
+            message: "User updated successfully!",
+            data: updatedUser,
+        });
+    } catch (error) {
+        InternalServer(res, error);
+    }
+};
