@@ -8,6 +8,7 @@ caseRouter.post('/create', caseController.createCase)
 caseRouter.get('/', caseController.caseList)
 caseRouter.get('/count', caseController.countCaseStatus)
 caseRouter.get('/info', [authMiddleware], caseController.caseInfo)
+caseRouter.get('/info/user', [authMiddleware], caseController.caseUserInfo)
 caseRouter.get('/:id', caseController.caseById)
 
 caseRouter.put('/:id', caseController.updateCase)

@@ -1,8 +1,8 @@
-import { View, Text } from 'react-native'
 import React from 'react'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import ProfileScreen from '../screens/ProfileScreen'
 import SettingScreen from '../screens/SettingScreen'
+import HistoryConsultScreeen from '../screens/HistoryConsultScreeen'
 
 const SettingStack = createNativeStackNavigator()
 
@@ -12,6 +12,11 @@ export default function SettingStackScreen() {
             <SettingStack.Screen
                 name='setting'
                 component={SettingScreen}
+                options={{ headerShown: false }}
+            />
+             <SettingStack.Screen
+                name='ประวัติการเข้าปรึกษา'
+                component={HistoryConsultScreeen}
                 options={{ headerShown: false }}
             />
             <SettingStack.Screen 

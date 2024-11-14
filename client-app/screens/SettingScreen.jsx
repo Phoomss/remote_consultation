@@ -13,8 +13,8 @@ export default function SettingScreen({ navigation }) {
         <TouchableOpacity style={styles.serviceButton} onPress={() => navigation.navigate('Profile')} >
           <Text style={styles.buttonText}>ข้อมูลส่วนตัว</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.serviceButtonTwo} onPress={() => navigation.navigate('จองคิวเข้าปรึกษา')}>
-          <Text style={styles.buttonTextTwo}>ประวัติการรับบริการ</Text>
+        <TouchableOpacity style={styles.serviceButtonTwo} onPress={() => navigation.navigate('ประวัติการเข้าปรึกษา')}>
+          <Text style={styles.buttonTextTwo}>ประวัติการเข้าปรึกษา</Text>
         </TouchableOpacity>
 
         <TouchableOpacity style={styles.logout} onPress={logout}>

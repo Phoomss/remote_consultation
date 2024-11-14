@@ -124,6 +124,61 @@ exports.caseInfo = async (req, res) => {
     }
 };
 
+exports.caseUserInfo = async (req, res) => {
+    try {
+        const query = await prisma.case.findMany({
+            where: {
+                booking: {
+                    user: {
+                        id: req.params.id, // Correctly filter by user ID
+                    }
+                },
+                case_status: 'completed' 
+            },
+            include: {
+                officer: {
+                    select: {
+                        title: true,
+                        full_name: true,
+                        phone: true,
+                        role: true
+                    }
+                },
+                physician: {
+                    select: {
+                        title: true,
+                        full_name: true,
+                        phone: true,
+                        role: true
+                    }
+                },
+                booking: {
+                    select: {
+                        booking_type: true,
+                        booking_detail: true,
+                        appointment: true,
+                        user: {
+                            select: {
+                                title: true,
+                                full_name: true,
+                                phone: true
+                            }
+                        }
+                    }
+                }
+            }
+        });
+
+        return res.status(200).json({
+            message: "List of cases",
+            data: query
+        });
+    } catch (error) {
+        InternalServer(res, error);
+    }
+};
+
+
 exports.caseList = async (req, res) => {
     try {
         const query = await prisma.case.findMany({
