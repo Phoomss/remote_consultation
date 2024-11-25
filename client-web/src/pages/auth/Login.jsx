@@ -20,7 +20,7 @@ const Login = () => {
         try {
             const res = await authService.login(loginData);
             const userRole = res.data.data.role;
-            console.log(res.data.data)
+            // console.log(res.data.data)
             localStorage.setItem("token", res.data.data.token);
 
             switch (userRole) {

@@ -18,7 +18,7 @@ const UserInfo = () => {
 
     return (
         <>
-            <div className="user-info-card container mt-4">
+            <div className="user-info-card container mt-4 user-panel">
                 <div className="card shadow-sm">
                     <div className="card-body d-flex align-items-center">
                         <div className="info">

@@ -15,7 +15,7 @@ const SideNav = () => {
             cancelButtonText: 'กดยกเลิกยังไม่แน่ใจ'
         }).then((result) => {
             if (result.isConfirmed) {
-                localStorage.removeItem('token')
+                localStorage.clear('token')
                 Swal.fire({
                     icon: 'success',
                     title: 'ออกจากระบบสำเร็จ',
@@ -53,9 +53,13 @@ const SideNav = () => {
                             </li>
                             <li className="nav-header">ออกจากระบบ</li>
                             <li className="nav-item">
-                                <div onClick={handleLogout} className="nav-link" style={{ cursor: 'pointer' }}>
-                                    <i className="nav-icon far fa-circle text-danger" />
-                                    <p className="text">ออกจากระบบ</p>
+                                <div
+                                    onClick={handleLogout}
+                                    className="nav-link text-danger"
+                                    style={{ cursor: 'pointer' }}
+                                >
+                                    <i className="nav-icon fas fa-sign-out-alt"></i>
+                                    <p>ออกจากระบบ</p>
                                 </div>
                             </li>
                         </ul>
