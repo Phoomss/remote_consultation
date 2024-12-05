@@ -34,9 +34,6 @@ const CardCaseStatus = () => {
                         <div className="icon">
                             <i className="nav-icon fa fa-search" />
                         </div>
-                        <a href="#" className="small-box-footer">
-                            More info <i className="fas fa-arrow-circle-right" />
-                        </a>
                     </div>
                 </div>
                 <div className="col-lg-6 col-6">
@@ -49,9 +46,6 @@ const CardCaseStatus = () => {
                         <div className="icon">
                             <i className="nav-icon fa fa-search" />
                         </div>
-                        <a href="#" className="small-box-footer">
-                            More info <i className="fas fa-arrow-circle-right" />
-                        </a>
                     </div>
                 </div>
             </div>

@@ -32,9 +32,6 @@ const CardBookingType = () => {
                         <div className="icon">
                             <i className="nav-icon fa fa-calendar"></i>
                         </div>
-                        <a href="#" className="small-box-footer">
-                            More info <i className="fas fa-arrow-circle-right" />
-                        </a>
                     </div>
                 </div>
                 {/* ./col */}
@@ -48,9 +45,6 @@ const CardBookingType = () => {
                         <div className="icon">
                             <i className="nav-icon fa fa-calendar"></i>
                         </div>
-                        <a href="#" className="small-box-footer">
-                            More info <i className="fas fa-arrow-circle-right" />
-                        </a>
                     </div>
                 </div>
             </div>
