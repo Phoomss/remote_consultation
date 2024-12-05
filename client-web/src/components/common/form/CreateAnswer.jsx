@@ -65,7 +65,14 @@ const CreateAnswer = () => {
       });
 
       // Handle the success response
-      Swal.fire('สำเร็จ!', response.data.message, 'success');
+      Swal.fire({
+        icon: 'success',
+        title: 'สร้างคำถามเรียบร้อย',
+        text: 'คำถามของคุณถูกสร้างสำเร็จแล้ว!',
+        confirmButtonText: 'ตกลง'
+      }).then(() => {
+        window.location.reload(); // Reload the page after success
+      });
       setAnswerTexts(['']); // Reset answers after submission
       setSelectedQuestionId(''); // Reset the selected question
       handleClose();
@@ -125,7 +132,6 @@ const CreateAnswer = () => {
               </div>
             ))}
 
-            {/* Add Answer Button */}
             <Button variant="success" className="mb-3" onClick={handleAddAnswer}>
               เพิ่มคำตอบ
             </Button>

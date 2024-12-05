@@ -116,21 +116,6 @@ const Question = () => {
     }
   };
 
-  const handleViewDetails = async (questionId) => {
-    try {
-      const res = await questionService.questionDetail(questionId);
-      const questionDetail = res.data.data;
-
-      Swal.fire({
-        title: `<strong>${questionDetail.ques_name}</strong>`,
-        html: `<p>${questionDetail.ques_detail}</p>`,
-        confirmButtonText: 'ปิด',
-      });
-    } catch (error) {
-      Swal.fire('เกิดข้อผิดพลาด!', 'เกิดข้อผิดพลาดในการดึงข้อมูลคำถาม', 'error');
-    }
-  };
-
   return (
     <div className='tb-question mt-3'>
       {error && <div className="alert alert-danger">{error}</div>}
@@ -152,12 +137,7 @@ const Question = () => {
                 <tr key={question.id}>
                   <td>{indexOfFirstItem + index + 1}</td>
                   <td>
-                    <button
-                      className="btn btn-link text-primary"
-                      onClick={() => handleViewDetails(question.id)}
-                    >
                       {question.ques_name}
-                    </button>
                   </td>
                   <td>
                     <button className="btn btn-primary btn-sm" onClick={() => handleEdit(question.id)}>แก้ไข</button>{' '}

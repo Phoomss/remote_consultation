@@ -1,10 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import answerService from './../../service/answerService';
 import Swal from 'sweetalert2';
+import { Form, Row, Col } from "react-bootstrap";
 
 const Answer = () => {
   const [answers, setAnswers] = useState([])
   const [filteredAnswer, setFilteredAnswer] = useState([]);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [selectedQuestion, setSelectedQuestion] = useState('');
   const [error, setError] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage] = useState(10);
@@ -24,6 +27,28 @@ const Answer = () => {
     }
     fetchData()
   }, [])
+
+  const handleSearch = (e) => {
+    const query = e.target.value.toLowerCase();
+    setSearchQuery(query);
+    filterAnswers(query, selectedQuestion);
+  };
+
+  const handleQuestionSelect = (e) => {
+    const question = e.target.value;
+    setSelectedQuestion(question);
+    filterAnswers(searchQuery, question);
+  };
+
+  const filterAnswers = (query, question) => {
+    const filtered = answers.filter(answer =>
+      (answer.question.ques_name.toLowerCase().includes(query) ||
+        answer.answer_text.toLowerCase().includes(query)) &&
+      (question === '' || answer.question.ques_name === question)
+    );
+    setFilteredAnswer(filtered);
+    setCurrentPage(1); // รีเซ็ตไปยังหน้าแรก
+  };
 
   const handlePreviousPage = () => {
     setCurrentPage(prevPage => Math.max(prevPage - 1, 1));
@@ -92,15 +117,15 @@ const Answer = () => {
 
       if (formValues) {
         const { answerText } = formValues;
-        const response = await answerService.updateAnswer(answerId, { answer_text:answerText });
-        
+        const response = await answerService.updateAnswer(answerId, { answer_text: answerText });
+
         if (response.status === 200) {
           const updatedAnswers = answers.map(answer =>
             answer.id === answerId ? { ...answer, answer_text: answerText } : answer
           );
           setAnswers(updatedAnswers);
           setFilteredAnswer(updatedAnswers);
-  
+
           Swal.fire('สำเร็จ!', 'คำตอบของคุณได้รับการอัปเดตแล้ว', 'success');
         } else {
           Swal.fire('เกิดข้อผิดพลาด!', 'ไม่สามารถอัปเดตคำตอบได้', 'error');
@@ -139,6 +164,36 @@ const Answer = () => {
   return (
     <div className='tb-answer mt-3'>
       {error && <div className="alert alert-danger">{error}</div>}
+      <div className="mb-3 p-3 bg-light rounded shadow-sm">
+        <Row className="align-items-center">
+          {/* กล่องค้นหา */}
+          <Col xs={12} md={6} className="mb-2 mb-md-0">
+            <Form.Control
+              type="text"
+              placeholder="🔍 ค้นหาคำถามหรือคำตอบ..."
+              value={searchQuery}
+              onChange={handleSearch}
+              className="form-control"
+            />
+          </Col>
+
+          {/* เมนูเลือกคำถาม */}
+          <Col xs={12} md={6}>
+            <Form.Select
+              value={selectedQuestion}
+              onChange={handleQuestionSelect}
+              aria-label="เลือกคำถาม"
+            >
+              <option value="">-- เลือกคำถาม --</option>
+              {[...new Set(answers.map(answer => answer.question.ques_name))].map((ques_name, index) => (
+                <option key={index} value={ques_name}>
+                  {ques_name}
+                </option>
+              ))}
+            </Form.Select>
+          </Col>
+        </Row>
+      </div>
       <div className="table-responsive">
         <table className="table table-bordered table-gray table-striped text-center">
           <thead>
