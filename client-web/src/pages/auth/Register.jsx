@@ -188,7 +188,7 @@ const Register = () => {
                                 >
                                     <option value="" disabled>เลือกบทบาท</option>
                                     <option value="OFFICER">เจ้าหน้าที่</option>
-                                    <option value="PHYSICIAN">แพทย์</option>
+                                    <option value="COUNSELOR">เจ้าหน้าที่ให้คำปรึกษา</option>
                                 </select>
                             </div>
                             <div className="form-group mb-3">

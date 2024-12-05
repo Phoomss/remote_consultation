@@ -59,9 +59,9 @@ function App() {
           <Route path='/officer/consult' element={<OfficerConsultPage />} />
         </Route>
         <Route element={<PhysicianLayout />}>
-          <Route path='/physician/dashboard' element={<PhysicianDashboardPage />} />
-          <Route path='/physician/profile' element={<PhysicianProfilePage />} />
-          <Route path='/physician/consult' element={<PhysicianConsultPage />} />
+          <Route path='/counselor/dashboard' element={<PhysicianDashboardPage />} />
+          <Route path='/counselor/profile' element={<PhysicianProfilePage />} />
+          <Route path='/counselor/consult' element={<PhysicianConsultPage />} />
         </Route>
       </Routes>
     </BrowserRouter>

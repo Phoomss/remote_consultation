@@ -46,7 +46,7 @@ const Login = () => {
                     })
                     navigate('/officer/reservation');
                     break;
-                case 'PHYSICIAN':
+                case 'COUNSELOR':
                     Swal.fire({
                         icon: 'success',
                         title: 'เข้าสู่ระบบ',
@@ -55,7 +55,7 @@ const Login = () => {
                         timerProgressBar: true,
                         showConfirmButton: false,
                     })
-                    navigate('/physician/consult');
+                    navigate('/counselor/consult');
                     break;
                 default:
                     navigate('/');

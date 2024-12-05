@@ -121,7 +121,7 @@ const Consult = () => {
               <th scope="col">#</th>
               <th scope="col">ผู้จองเข้าปรึกษา</th>
               <th scope="col">เจ้าหน้าที่รับเคส</th>
-              <th scope="col">แพทย์</th>
+              <th scope="col">เจ้าหน้าที่ให้คำปรึกษา</th>
               <th scope="col">สถานะเคส</th>
               <th scope="col">จัดการ</th>
             </tr>

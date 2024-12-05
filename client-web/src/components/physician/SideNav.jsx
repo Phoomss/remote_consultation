@@ -38,7 +38,7 @@ const SideNav = () => {
                         <ul className="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                             <li className="nav-header">จัดการระบบ</li>
                             <li className="nav-item">
-                                <NavLink to='/physician/consult' className="nav-link">
+                                <NavLink to='/counselor/consult' className="nav-link">
                                     <i className="nav-icon fa fa-search" />
                                     <p>จัดการเคสคนเข้าปรึกษา</p>
                                 </NavLink>
@@ -46,7 +46,7 @@ const SideNav = () => {
 
                             <li className="nav-header">จัดการข้อมูล</li>
                             <li className="nav-item">
-                                <NavLink to='/admin/profile' className="nav-link">
+                                <NavLink to='/counselor/profile' className="nav-link">
                                     <i className="nav-icon 	fas fa-user-circle" />
                                     <p>ข้อมูลส่วนตัว</p>
                                 </NavLink>
