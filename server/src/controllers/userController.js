@@ -183,7 +183,7 @@ exports.countUser = async (req, res) => {
       const totalUsers = await prisma.user.count({
         where: {
           role: {
-            in: ['USER', 'OFFICER', 'PHYSICIAN'] // เฉพาะ role ที่ระบุ
+            in: ['USER', 'OFFICER', 'COUNSELOR'] // เฉพาะ role ที่ระบุ
           }
         }
       });
@@ -196,7 +196,7 @@ exports.countUser = async (req, res) => {
         },
         where: {
           role: {
-            in: ['USER', 'OFFICER', 'PHYSICIAN']
+            in: ['USER', 'OFFICER', 'COUNSELOR']
           }
         }
       });
