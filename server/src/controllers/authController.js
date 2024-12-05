@@ -43,7 +43,7 @@ exports.signup = async (req, res, next) => {
         }
 
         // Allow only specific roles
-        const allowedRoles = ["USER", "OFFICER","PHYSICIAN"];
+        const allowedRoles = ["USER", "OFFICER","COUNSELOR"];
         const assignedRole = allowedRoles.includes(role) ? role : "USER";
 
         const hashedPassword = await hashPassword(password);

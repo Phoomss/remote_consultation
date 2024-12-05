@@ -17,7 +17,7 @@ CREATE TABLE `users` (
     `phone` VARCHAR(10) NOT NULL,
     `username` VARCHAR(100) NOT NULL,
     `password` VARCHAR(191) NOT NULL,
-    `role` ENUM('ADMIN', 'USER', 'OFFICER', 'PHYSICIAN') NOT NULL,
+    `role` ENUM('ADMIN', 'USER', 'OFFICER', 'COUNSELOR') NOT NULL,
     `createdAt` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
 
     UNIQUE INDEX `users_phone_key`(`phone`),
@@ -30,8 +30,8 @@ CREATE TABLE `bookings` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
     `userId` INTEGER NOT NULL,
     `booking_type` ENUM('bloodTest', 'consult') NOT NULL,
-    `booking_detail` TEXT NOT NULL,
-    `appointment` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+    `booking_detail` TEXT NULL,
+    `appointment` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP(3),
     `createdAt` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
 
     PRIMARY KEY (`id`)
@@ -43,7 +43,7 @@ CREATE TABLE `cases` (
     `bookingId` INTEGER NOT NULL,
     `officerId` INTEGER NOT NULL,
     `physicianId` INTEGER NOT NULL,
-    `case_status` ENUM('accepted', 'notAccepting') NOT NULL,
+    `case_status` ENUM('completed', 'accepting') NOT NULL,
     `createdAt` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
 
     PRIMARY KEY (`id`)
@@ -63,7 +63,7 @@ CREATE TABLE `questions` (
 CREATE TABLE `answers` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
     `questionId` INTEGER NOT NULL,
-    `anwer_text` TEXT NOT NULL,
+    `answer_text` VARCHAR(191) NOT NULL,
     `createdAt` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
 
     PRIMARY KEY (`id`)

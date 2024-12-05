@@ -11,7 +11,7 @@ enum Role {
   ADMIN
   USER
   OFFICER
-  PHYSICIAN
+  COUNSELOR
 }
 
 enum BookingType {
