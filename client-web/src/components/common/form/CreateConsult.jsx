@@ -142,14 +142,14 @@ const CreateConsult = () => {
                 </Form.Group>
 
                 <Form.Group>
-                  <Form.Label>เลือกแพทย์</Form.Label>
+                  <Form.Label>เลือกเจ้าหน้าที่ให้คำปรึกษา</Form.Label>
                   <Form.Control
                     as="select"
                     name="physicianId"
                     value={caseData.physicianId}
                     onChange={handleInputChange}
                   >
-                    <option value="">เลือกแพทย์</option>
+                    <option value="">เลือกเจ้าหน้าที่ให้คำปรึกษา</option>
                     {physicians.map((physician) => (
                       <option key={physician.id} value={physician.id}>
                         {physician.title} {physician.full_name}

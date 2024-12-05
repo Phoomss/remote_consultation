@@ -36,9 +36,6 @@ const CardUser = () => {
                 <div className="icon">
                     <i className="nav-icon fa fa-users" />
                 </div>
-                <a href="#" className="small-box-footer">
-                    More info <i className="fas fa-arrow-circle-right" />
-                </a>
             </div>
         </div>
         <div className="col-lg-3 col-6">
@@ -51,9 +48,6 @@ const CardUser = () => {
                 <div className="icon">
                     <i className="nav-icon fa fa-user-circle" />
                 </div>
-                <a href="#" className="small-box-footer">
-                    More info <i className="fas fa-arrow-circle-right" />
-                </a>
             </div>
         </div>
         <div className="col-lg-3 col-6">
@@ -63,12 +57,6 @@ const CardUser = () => {
                     <h3>{officerCount}</h3>
                     <p>เจ้าหน้าที่</p>
                 </div>
-                <div className="icon">
-                    <i className="nav-icon fa fa-user-circle" />
-                </div>
-                <a href="#" className="small-box-footer">
-                    More info <i className="fas fa-arrow-circle-right" />
-                </a>
             </div>
         </div>
         <div className="col-lg-3 col-6">
@@ -76,14 +64,11 @@ const CardUser = () => {
             <div className="small-box bg-info">
                 <div className="inner">
                     <h3>{physicianCount}</h3>
-                    <p>แพทย์</p>
+                    <p>เจ้าหน้าที่ให้คำปรึกษา</p>
                 </div>
                 <div className="icon">
                     <i className="nav-icon fa  fa-user-md" />
                 </div>
-                <a href="#" className="small-box-footer">
-                    More info <i className="fas fa-arrow-circle-right" />
-                </a>
             </div>
         </div>
     </div>

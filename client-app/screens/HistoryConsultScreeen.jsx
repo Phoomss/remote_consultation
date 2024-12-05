@@ -64,7 +64,7 @@ export default function HistoryConsultScreeen() {
                   {formatDateTime(caseItem.createdAt)}
                 </Text>
                 <Text style={{ fontSize: 16, marginTop: 4, color: '#777' }}>
-                  แพทย์: {caseItem.physician.title}{caseItem.physician.full_name}
+                  เจ้าหน้าที่ให้คำปรึกษา: {caseItem.physician.title}{caseItem.physician.full_name}
                 </Text>
                 <Text style={{ fontSize: 16, marginTop: 4, color: '#777' }}>
                   เจ้าหน้าที่: {caseItem.officer.title}{caseItem.officer.full_name}
