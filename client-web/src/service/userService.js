@@ -18,7 +18,7 @@ const userCount = () => {
 }
 
 const searchRolePhysician = () => {
-    return http.get('/api/user/search?role=PHYSICIAN')
+    return http.get('/api/user/search?role=COUNSELOR')
 }
 
 const userById = async (userId) => {
